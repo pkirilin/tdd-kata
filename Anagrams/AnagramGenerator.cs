@@ -14,7 +14,7 @@ namespace Anagrams
 
             if (input.Length == 2)
             {
-                return new[] { input };
+                return new[] { input, string.Join("", input.Reverse()) };
             }
             
             return Array.Empty<string>();

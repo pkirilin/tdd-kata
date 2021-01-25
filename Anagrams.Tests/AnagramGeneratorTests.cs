@@ -38,5 +38,15 @@ namespace Anagrams.Tests
 
             result.Should().BeEquivalentTo("aa");
         }
+
+        [Fact]
+        public void WhenGenerateWithStringWhichContainsTwoSymbols_ThenReturnsItAndReversedString()
+        {
+            var input = "ab";
+
+            var result = AnagramGenerator.Execute(input);
+
+            result.Should().BeEquivalentTo("ab", "ba");
+        }
     }
 }
