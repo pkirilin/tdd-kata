@@ -35,15 +35,17 @@ namespace Anagrams
         
         private static string[] ComplexCase(char head, char[] tail)
         {
-            if (tail.Length == 3)
+            if (tail.Length == 2)
             {
-                var tempTails = tail.SelectMany(head => ComplexCase(head, tail.Where(y => y != head).ToArray()));
-                return tempTails
-                    .Select(y => $"{head}{y}")
+                return GetOutputTails(tail)
+                    .Select(x => $"{head}{x}")
                     .ToArray();
             }
             
-            return GetOutputTails(tail)
+            var tempTails = tail
+                .SelectMany(h => ComplexCase(h, tail.Where(y => y != h).ToArray()))
+                .ToArray();
+            return tempTails
                 .Select(y => $"{head}{y}")
                 .ToArray();
         }
