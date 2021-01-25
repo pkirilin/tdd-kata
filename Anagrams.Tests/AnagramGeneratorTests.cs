@@ -18,5 +18,15 @@ namespace Anagrams.Tests
             // Assert
             result.Should().BeEquivalentTo(Array.Empty<string>());
         }
+
+        [Fact]
+        public void WhenGenerateWithStringWhichContainsOneSymbol_ThenReturnsIt()
+        {
+            var input = "a";
+
+            var result = AnagramGenerator.Execute(input);
+
+            result.Should().BeEquivalentTo("a");
+        }
     }
 }
