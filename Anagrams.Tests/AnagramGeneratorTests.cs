@@ -48,5 +48,15 @@ namespace Anagrams.Tests
 
             result.Should().BeEquivalentTo("ab", "ba");
         }
+        
+        [Fact]
+        public void WhenGenerateWithStringWhichContainsThreeSymbols_ThenReturnsSixPermutations()
+        {
+            var input = "abc";
+            
+            var result = AnagramGenerator.Execute(input);
+
+            result.Should().BeEquivalentTo("abc", "acb", "bac", "bca", "cab", "cba");
+        }
     }
 }

@@ -22,6 +22,16 @@ namespace Anagrams
                 return new[] { input, string.Join("", input.Reverse()) };
             }
 
+            if (input.Length > 2)
+            {
+                return new[]
+                {
+                    $"{input[0]}{input[1]}{input[2]}", $"{input[0]}{input[2]}{input[1]}",
+                    $"{input[1]}{input[0]}{input[2]}", $"{input[1]}{input[2]}{input[0]}",
+                    $"{input[2]}{input[0]}{input[1]}", $"{input[2]}{input[1]}{input[0]}", 
+                };
+            }
+
             return Array.Empty<string>();
         }
     }
