@@ -11,6 +11,11 @@ namespace Anagrams
             {
                 return new[] { input.ElementAt(0).ToString() };
             }
+
+            if (input.Length == 2)
+            {
+                return new[] { input };
+            }
             
             return Array.Empty<string>();
         }

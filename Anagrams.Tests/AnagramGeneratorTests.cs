@@ -28,5 +28,15 @@ namespace Anagrams.Tests
 
             result.Should().BeEquivalentTo("a");
         }
+
+        [Fact]
+        public void WhenGenerateWithStringWhichContainsDuplicateSymbols_ThenReturnsIt()
+        {
+            var input = "aa";
+
+            var result = AnagramGenerator.Execute(input);
+
+            result.Should().BeEquivalentTo("aa");
+        }
     }
 }
