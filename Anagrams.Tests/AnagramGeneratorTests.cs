@@ -58,20 +58,5 @@ namespace Anagrams.Tests
 
             result.Should().BeEquivalentTo("abc", "acb", "bac", "bca", "cab", "cba");
         }
-
-        [Fact]
-        public void WhenGenerateWithStringWhichContainsFourSymbols_ThenReturnsTwentyFourPermutations()
-        {
-            var input = "biro";
-
-            var result = AnagramGenerator.Execute(input);
-
-            result.Should().BeEquivalentTo(
-                "biro", "bior", "brio", "broi", "boir", "bori",
-                "ibro", "ibor", "irbo", "irob", "iobr", "iorb",
-                "rbio", "rboi", "ribo", "riob", "roib", "robi",
-                "obir", "obri", "oibr", "oirb", "orbi", "orib"
-            );
-        }
     }
 }
