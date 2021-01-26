@@ -7,10 +7,36 @@ namespace Anagrams.Tests
     public class AnagramGeneratorTests
     {
         [Fact]
+        public void WhenGenerateWithNullString_ThenReturnsEmptyArray()
+        {
+            // Arrange
+            string input = null;
+
+            // Act
+            var result = AnagramGenerator.Execute(input);
+
+            // Assert
+            result.Should().BeEquivalentTo(Array.Empty<string>());
+        }
+        
+        [Fact]
         public void WhenGenerateWithEmptyString_ThenReturnsEmptyArray()
         {
             // Arrange
             var input = string.Empty;
+
+            // Act
+            var result = AnagramGenerator.Execute(input);
+
+            // Assert
+            result.Should().BeEquivalentTo(Array.Empty<string>());
+        }
+        
+        [Fact]
+        public void WhenGenerateWithWhitespaceString_ThenReturnsEmptyArray()
+        {
+            // Arrange
+            string input = " ";
 
             // Act
             var result = AnagramGenerator.Execute(input);
@@ -33,6 +59,11 @@ namespace Anagrams.Tests
         public void WhenGenerateWithStringWhichContainsDuplicateSymbols_ThenReturnsIt()
         {
             var input = "aa";
+            
+            // aa -> a, [a]
+            // aaa -> a, [a, a]
+            // [a, a] -> a
+            // [a, b] -> a, [b] | b, [a] => ab, ba
 
             var result = AnagramGenerator.Execute(input);
 
