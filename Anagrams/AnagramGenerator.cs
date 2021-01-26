@@ -16,6 +16,15 @@ namespace Anagrams
             {
                 return new[] {input};
             }
+            
+            // return ExecuteInternal(input)
+            //     .Distinct()
+            //     .ToArray();
+
+            // return ExecuteInternal(" " + input)
+            //     .Select(x => x.Remove(0, 1))
+            //     .Distinct()
+            //     .ToArray();
 
             return GetInputVariations(input)
                 .SelectMany(ExecuteInternal)
@@ -23,15 +32,10 @@ namespace Anagrams
                 .ToArray();
         }
 
-        private static string[] ExecuteInternal(string substring)
+        private static string[] ExecuteInternal(string input)
         {
-            if (substring == null)
-            {
-                return Array.Empty<string>();
-            }
-            
-            var head = substring.First();
-            var tail = new string(substring.Skip(1).ToArray());
+            var head = input.First();
+            var tail = new string(input.Skip(1).ToArray());
             
             if (tail.Length == 0)
             {
@@ -44,14 +48,11 @@ namespace Anagrams
                 {
                     return new[] { $"{head}{tail[0]}" };
                 }
-
-                var one = ExecuteInternal(head.ToString());
-                var two = ExecuteInternal(tail[0].ToString());
-                    
+                
                 return new[]
                 {
-                    $"{one[0]}{two[0]}",
-                    $"{two[0]}{one[0]}"
+                    $"{head}{tail[0]}",
+                    $"{tail[0]}{head}"
                 };
             }
 
@@ -66,70 +67,22 @@ namespace Anagrams
             var variations = new string[source.Length];
             variations[0] = source;
             var idx = 1;
-
+            
             var currentVariation = source;
             var sourceSymbols = currentVariation.ToArray();
-
+            
             while (idx < source.Length)
             {
                 var head = sourceSymbols[0];
                 var tail = currentVariation.Skip(1);
                 var variation = new string(tail.Concat(new[] { head }).ToArray());
                 variations[idx++] = variation;
-
+            
                 currentVariation = variation;
                 sourceSymbols = currentVariation.ToArray();
             }
             
             return variations;
         }
-
-        #region Old version
-
-        private static string[] ExecuteV1(string input)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-            {
-                return Array.Empty<string>();
-            }
-            
-            return input
-                .SelectMany(x => ComplexCase(x, input.Where(y => x != y).ToArray()))
-                // .SelectMany(x => ComplexCase(x, input.ToArray()))
-                // .Distinct()
-                .ToArray();
-        }
-        
-        private static string[] ComplexCase(char head, char[] tail)
-        {
-            if (tail.Length == 0)
-            {
-                return new[] { head.ToString() };
-            }
-            
-            if (tail.Length == 1)
-            {
-                return GetOutputTails(new[] { head, tail[0] });
-            }
-
-            var tempTails = tail
-                .SelectMany(h => ComplexCase(h, tail.Where(y => y != h).ToArray()))
-                .ToArray();
-            return tempTails
-                .Select(y => $"{head}{y}")
-                .ToArray();
-        }
-
-        private static string[] GetOutputTails(char[] tail)
-        {
-            if (tail[0] == tail[1])
-            {
-                return new[] { tail[0].ToString() };
-            }
-            
-            return new[] {$"{tail[0]}{tail[1]}"};
-        }
-        
-        #endregion
     }
 }

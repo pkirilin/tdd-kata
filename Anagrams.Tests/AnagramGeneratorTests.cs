@@ -60,11 +60,6 @@ namespace Anagrams.Tests
         {
             var input = "aa";
             
-            // aa -> a, [a]
-            // aaa -> a, [a, a]
-            // [a, a] -> a
-            // [a, b] -> a, [b] | b, [a] => ab, ba
-
             var result = AnagramGenerator.Execute(input);
 
             result.Should().BeEquivalentTo("aa");
