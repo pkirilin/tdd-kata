@@ -17,20 +17,6 @@ namespace Anagrams
                 return new[] {input};
             }
 
-            if (input.Length == 2)
-            {
-                if (input[0] == input[1])
-                {
-                    return new[] {$"{input[0]}{input[1]}"};
-                }
-
-                return new[]
-                {
-                    $"{input[0]}{input[1]}",
-                    $"{input[1]}{input[0]}"
-                };
-            }
-
             return GetInputVariations(input)
                 .SelectMany(variation =>
                     GetInputVariations(new string(variation.Skip(1).ToArray()))
