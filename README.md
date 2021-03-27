@@ -1,12 +1,3 @@
-# Anagrams kata task
+# Coding exercises for TDD practice
 
-Write a program to generate all potential anagrams of an input string.
-
-For example, the potential anagrams of "biro" are:
-
-```text
-biro bior brio broi boir bori
-ibro ibor irbo irob iobr iorb
-rbio rboi ribo riob roib robi
-obir obri oibr oirb orbi orib
-```
+- [Anagrams](src/Anagrams/README.md)
