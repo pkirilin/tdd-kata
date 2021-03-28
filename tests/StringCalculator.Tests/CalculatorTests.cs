@@ -58,5 +58,15 @@ namespace StringCalculator.Tests
             // Assert
             Assert.Equal(6, sum);
         }
+        
+        [Fact]
+        public void When_NumbersAreSeparatedWithCustomDelimeters_Should_ReturnSum()
+        {
+            // Act
+            var sum = Calculator.Add("//;\n1;2");
+
+            // Assert
+            Assert.Equal(3, sum);
+        }
     }
 }
