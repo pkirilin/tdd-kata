@@ -48,5 +48,15 @@ namespace StringCalculator.Tests
             // Assert
             Assert.Equal(expected, sum);
         }
+        
+        [Fact]
+        public void When_NumbersAreSeparatedWithLinesOrCommas_Should_ReturnSum()
+        {
+            // Act
+            var sum = Calculator.Add("1\n2,3");
+
+            // Assert
+            Assert.Equal(6, sum);
+        }
     }
 }
