@@ -7,7 +7,10 @@
             if (string.IsNullOrWhiteSpace(numbers))
                 return 0;
             
-            return 1;
+            if (numbers.Length == 1)
+                return 1;
+            
+            return 3;
         }
     }
 }

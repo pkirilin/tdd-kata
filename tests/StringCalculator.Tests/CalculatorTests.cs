@@ -23,5 +23,15 @@ namespace StringCalculator.Tests
             // Assert
             Assert.Equal(1, sum);
         }
+        
+        [Fact]
+        public void When_TwoNumbersSpecified_Should_ReturnSum()
+        {
+            // Act
+            var sum = Calculator.Add("1,2");
+
+            // Assert
+            Assert.Equal(3, sum);
+        }
     }
 }
