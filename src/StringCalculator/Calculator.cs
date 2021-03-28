@@ -1,4 +1,6 @@
-﻿namespace StringCalculator
+﻿using System.Linq;
+
+namespace StringCalculator
 {
     public static class Calculator
     {
@@ -6,11 +8,10 @@
         {
             if (string.IsNullOrWhiteSpace(numbers))
                 return 0;
-            
-            if (numbers.Length == 1)
-                return int.Parse(numbers[0].ToString());
-            
-            return int.Parse(numbers[0].ToString()) + int.Parse(numbers[2].ToString());
+
+            return numbers.Split(',')
+                .Select(int.Parse)
+                .Sum();
         }
     }
 }

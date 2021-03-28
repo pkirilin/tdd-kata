@@ -37,5 +37,16 @@ namespace StringCalculator.Tests
             // Assert
             Assert.Equal(expected, sum);
         }
+        
+        [Theory]
+        [InlineData("1,2,3,4,5", 15)]
+        public void When_UnknownAmountOfNumbersSpecified_Should_ReturnSum(string numbers, int expected)
+        {
+            // Act
+            var sum = Calculator.Add(numbers);
+
+            // Assert
+            Assert.Equal(expected, sum);
+        }
     }
 }
