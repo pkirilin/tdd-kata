@@ -14,24 +14,28 @@ namespace StringCalculator.Tests
             Assert.Equal(0, sum);
         }
         
-        [Fact]
-        public void When_OneNumberSpecified_Should_ReturnThatNumber()
+        [Theory]
+        [InlineData("1", 1)]
+        [InlineData("2", 2)]
+        public void When_OneNumberSpecified_Should_ReturnThatNumber(string numbers, int expected)
         {
             // Act
-            var sum = Calculator.Add("1");
+            var sum = Calculator.Add(numbers);
 
             // Assert
-            Assert.Equal(1, sum);
+            Assert.Equal(expected, sum);
         }
         
-        [Fact]
-        public void When_TwoNumbersSpecified_Should_ReturnSum()
+        [Theory]
+        [InlineData("1,2", 3)]
+        [InlineData("3,4", 7)]
+        public void When_TwoNumbersSpecified_Should_ReturnSum(string numbers, int expected)
         {
             // Act
-            var sum = Calculator.Add("1,2");
+            var sum = Calculator.Add(numbers);
 
             // Assert
-            Assert.Equal(3, sum);
+            Assert.Equal(expected, sum);
         }
     }
 }
