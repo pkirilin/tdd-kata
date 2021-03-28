@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StringCalculator
@@ -19,9 +20,19 @@ namespace StringCalculator
                 numbersData = numbers.Remove(0, numbers.IndexOf('\n') + 1);
             }
 
-            return numbersData.Split(delimeters.ToArray())
+            var allNumbers = numbersData.Split(delimeters.ToArray())
                 .Select(int.Parse)
-                .Sum();
+                .ToArray();
+            
+            var negativeNumbers = allNumbers.Where(n => n < 0)
+                .ToArray();
+
+            if (negativeNumbers.Any())
+            {
+                throw new InvalidOperationException($"negatives not allowed: {string.Join(", ", negativeNumbers)}");
+            }
+
+            return allNumbers.Sum();
         }
     }
 }
