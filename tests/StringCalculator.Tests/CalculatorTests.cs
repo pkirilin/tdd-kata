@@ -102,5 +102,15 @@ namespace StringCalculator.Tests
             // Assert
             Assert.Equal(6, sum);
         }
+        
+        [Fact]
+        public void When_NumbersContainMultipleDelimetersOfAnyLength_Should_ReturnSum()
+        {
+            // Act
+            var sum = Calculator.Add("//[*][%][$$$]\n1*2%3$$$4");
+
+            // Assert
+            Assert.Equal(10, sum);
+        }
     }
 }

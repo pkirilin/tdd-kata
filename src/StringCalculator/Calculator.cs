@@ -16,12 +16,12 @@ namespace StringCalculator
             
             if (numbers.StartsWith("//"))
             {
-                var customDelimiter = new string(numbers.Skip(2)
-                    .Where(ch => ch != '[' && ch != ']')
+                var customDelimitersLine = new string(numbers.Skip(2)
                     .TakeWhile(ch => ch != '\n')
                     .ToArray());
+                var customDelimiters = customDelimitersLine.Split('[', ']');
                 
-                delimiters.Add(customDelimiter);
+                delimiters.AddRange(customDelimiters);
                 numbersData = numbers.Remove(0, numbers.IndexOf('\n') + 1);
             }
 
