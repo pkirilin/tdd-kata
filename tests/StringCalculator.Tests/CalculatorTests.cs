@@ -92,5 +92,15 @@ namespace StringCalculator.Tests
             // Assert
             Assert.Equal(2, sum);
         }
+        
+        [Fact]
+        public void When_NumbersContainDelimeterOfAnyLength_Should_ReturnSum()
+        {
+            // Act
+            var sum = Calculator.Add("//[***]\n1***2***3");
+
+            // Assert
+            Assert.Equal(6, sum);
+        }
     }
 }
