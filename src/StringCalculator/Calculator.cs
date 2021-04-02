@@ -20,11 +20,12 @@ namespace StringCalculator
                 numbersData = numbers.Remove(0, numbers.IndexOf('\n') + 1);
             }
 
-            var allNumbers = numbersData.Split(delimeters.ToArray())
+            var numbersToSum = numbersData.Split(delimeters.ToArray())
                 .Select(int.Parse)
+                .Where(n => n <= 1000)
                 .ToArray();
             
-            var negativeNumbers = allNumbers.Where(n => n < 0)
+            var negativeNumbers = numbersToSum.Where(n => n < 0)
                 .ToArray();
 
             if (negativeNumbers.Any())
@@ -32,7 +33,7 @@ namespace StringCalculator
                 throw new InvalidOperationException($"negatives not allowed: {string.Join(", ", negativeNumbers)}");
             }
 
-            return allNumbers.Sum();
+            return numbersToSum.Sum();
         }
     }
 }

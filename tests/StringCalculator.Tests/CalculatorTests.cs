@@ -82,5 +82,15 @@ namespace StringCalculator.Tests
             
             Assert.Equal(expectedMessage, exception.Message);
         }
+        
+        [Fact]
+        public void When_NumbersContainOnesBiggerThan1000_Should_ReturnSumWithoutThatNumbers()
+        {
+            // Act
+            var sum = Calculator.Add("2,1001");
+
+            // Assert
+            Assert.Equal(2, sum);
+        }
     }
 }
