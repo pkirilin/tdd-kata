@@ -11,21 +11,21 @@ namespace StringCalculator
             if (string.IsNullOrWhiteSpace(numbers))
                 return 0;
 
-            var delimeters = new List<string>() {",", "\n"};
+            var delimiters = new List<string>() {",", "\n"};
             var numbersData = numbers;
             
             if (numbers.StartsWith("//"))
             {
-                var customDelimeter = new string(numbers.Skip(2)
+                var customDelimiter = new string(numbers.Skip(2)
                     .Where(ch => ch != '[' && ch != ']')
                     .TakeWhile(ch => ch != '\n')
                     .ToArray());
                 
-                delimeters.Add(customDelimeter);
+                delimiters.Add(customDelimiter);
                 numbersData = numbers.Remove(0, numbers.IndexOf('\n') + 1);
             }
 
-            var numbersToSum = numbersData.Split(delimeters.ToArray(), StringSplitOptions.RemoveEmptyEntries)
+            var numbersToSum = numbersData.Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse)
                 .Where(n => n <= 1000)
                 .ToArray();
