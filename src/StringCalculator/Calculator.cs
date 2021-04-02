@@ -14,24 +14,18 @@ namespace StringCalculator
             var delimiters = new List<string>() {",", "\n"};
             var numbersData = numbers;
             
-            if (numbers.StartsWith("//"))
+            if (numbers.HasCustomDelimiters())
             {
-                var customDelimitersLine = new string(numbers.Skip(2)
-                    .TakeWhile(ch => ch != '\n')
-                    .ToArray());
-                var customDelimiters = customDelimitersLine.Split('[', ']');
-                
+                var customDelimiters = numbers.GetCustomDelimiters();
                 delimiters.AddRange(customDelimiters);
-                numbersData = numbers.Remove(0, numbers.IndexOf('\n') + 1);
+                numbersData = numbers.RemoveFirstLine();
             }
 
             var numbersToSum = numbersData.Split(delimiters.ToArray(), StringSplitOptions.RemoveEmptyEntries)
                 .Select(int.Parse)
                 .Where(n => n <= 1000)
                 .ToArray();
-            
-            var negativeNumbers = numbersToSum.Where(n => n < 0)
-                .ToArray();
+            var negativeNumbers = numbersToSum.Where(n => n < 0).ToArray();
 
             if (negativeNumbers.Any())
             {
@@ -39,6 +33,25 @@ namespace StringCalculator
             }
 
             return numbersToSum.Sum();
+        }
+
+        private static bool HasCustomDelimiters(this string numbers)
+        {
+            return numbers.StartsWith("//");
+        }
+
+        private static IEnumerable<string> GetCustomDelimiters(this string numbers)
+        {
+            var customDelimitersLine = new string(numbers.Skip(2)
+                .TakeWhile(ch => ch != '\n')
+                .ToArray());
+            
+            return customDelimitersLine.Split('[', ']');
+        }
+
+        private static string RemoveFirstLine(this string str)
+        {
+            return str.Remove(0, str.IndexOf('\n') + 1);
         }
     }
 }
