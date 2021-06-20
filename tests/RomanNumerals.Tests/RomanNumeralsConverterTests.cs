@@ -16,5 +16,11 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(2).Should().Be("II");
         }
+        
+        [Fact]
+        public void ShouldReturn_III_WhenInputIs_3()
+        {
+            RomanNumeralsConverter.Convert(3).Should().Be("III");
+        }
     }
 }

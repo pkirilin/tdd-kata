@@ -1,15 +1,21 @@
+using System.Collections.Generic;
+using System.Text;
+
 namespace RomanNumerals
 {
     public static class RomanNumeralsConverter
     {
         public static string Convert(int number)
         {
-            if (number == 1)
+            var result = new StringBuilder();
+            
+            while (number > 0)
             {
-                return "I";
+                result.Append('I');
+                number--;
             }
-
-            return "II";
+            
+            return result.ToString();
         }
     }
 }
