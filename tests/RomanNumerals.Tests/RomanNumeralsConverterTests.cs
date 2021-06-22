@@ -34,5 +34,11 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(5).Should().Be("V");
         }
+        
+        [Fact]
+        public void ShouldReturn_VIII_WhenInputIs_8()
+        {
+            RomanNumeralsConverter.Convert(8).Should().Be("VIII");
+        }
     }
 }
