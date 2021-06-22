@@ -40,5 +40,17 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(8).Should().Be("VIII");
         }
+        
+        [Fact]
+        public void ShouldReturn_XXI_WhenInputIs_21()
+        {
+            RomanNumeralsConverter.Convert(21).Should().Be("XXI");
+        }
+        
+        [Fact]
+        public void ShouldReturn_XLIX_WhenInputIs_49()
+        {
+            RomanNumeralsConverter.Convert(49).Should().Be("XLIX");
+        }
     }
 }
