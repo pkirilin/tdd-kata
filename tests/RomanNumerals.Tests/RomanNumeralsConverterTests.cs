@@ -22,5 +22,17 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(3).Should().Be("III");
         }
+        
+        [Fact]
+        public void ShouldReturn_IV_WhenInputIs_4()
+        {
+            RomanNumeralsConverter.Convert(4).Should().Be("IV");
+        }
+        
+        [Fact]
+        public void ShouldReturn_V_WhenInputIs_5()
+        {
+            RomanNumeralsConverter.Convert(5).Should().Be("V");
+        }
     }
 }

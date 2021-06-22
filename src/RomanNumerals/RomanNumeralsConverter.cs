@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text;
 
 namespace RomanNumerals
@@ -11,6 +10,20 @@ namespace RomanNumerals
             
             while (number > 0)
             {
+                if (number == 4)
+                {
+                    result.Append("IV");
+                    number -= 4;
+                    continue;
+                }
+                
+                if (number == 5)
+                {
+                    result.Append('V');
+                    number -= 5;
+                    continue;
+                }
+
                 result.Append('I');
                 number--;
             }
