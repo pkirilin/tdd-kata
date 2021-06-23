@@ -52,5 +52,17 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(49).Should().Be("XLIX");
         }
+        
+        [Fact]
+        public void ShouldReturn_MCCXXXIV_WhenInputIs_1234()
+        {
+            RomanNumeralsConverter.Convert(1234).Should().Be("MCCXXXIV");
+        }
+        
+        [Fact]
+        public void ShouldReturn_MCMXCIX_WhenInputIs_1999()
+        {
+            RomanNumeralsConverter.Convert(1999).Should().Be("MCMXCIX");
+        }
     }
 }

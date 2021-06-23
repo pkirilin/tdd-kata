@@ -6,35 +6,6 @@ namespace RomanNumerals
 {
     public static class RomanNumeralsConverter
     {
-        // 1999 = 1000 + 900 + 90 + 9 = M + CM + XC + IX
-        
-        // 1234 = 1000 + 200 + 30 + 4 = M + CC + XXX + IV
-        
-        // 1...3 -> I...III
-        // 4 -> IV
-        // 5 -> V
-        // 6...8 -> VI...VIII
-        // 9 -> IX
-        
-        // 10 -> X
-        // 20 -> XX
-        
-        // 5 -> V
-        // 50 -> L
-        // 500 -> D
-        
-        // 7 -> VII
-        // 70 -> LXX
-        // 700 -> DCC
-        
-        // 4 -> IV
-        // 40 -> XL
-        // 400 -> CD
-        
-        // 9 -> IX
-        // 90 -> XC
-        // 900 -> CM
-
         public static string Convert(int number)
         {
             var result = new StringBuilder();
@@ -58,7 +29,8 @@ namespace RomanNumerals
             {
                 [0] = 'I',
                 [1] = 'X',
-                [2] = 'C'
+                [2] = 'C',
+                [3] = 'M',
             };
             
             var romanDigitsFive = new Dictionary<int, char>()
@@ -101,7 +73,7 @@ namespace RomanNumerals
 
             for (var i = 0; i < countDigits; i++)
             {
-                splittedNumbers.Push(number % 10 * (int)Math.Pow(10, i));
+                splittedNumbers.Push(number % 10 * (int) Math.Pow(10, i));
                 number /= 10;
             }
 
