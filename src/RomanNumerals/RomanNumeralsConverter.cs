@@ -6,16 +6,28 @@ namespace RomanNumerals
 {
     public static class RomanNumeralsConverter
     {
+        private static readonly IReadOnlyDictionary<int, char> RomanDigitsOne = new Dictionary<int, char>()
+        {
+            [0] = 'I',
+            [1] = 'X',
+            [2] = 'C',
+            [3] = 'M',
+        };
+        
+        private static readonly IReadOnlyDictionary<int, char> RomanDigitsFive = new Dictionary<int, char>()
+        {
+            [0] = 'V',
+            [1] = 'L',
+            [2] = 'D',
+        };
+        
         public static string Convert(int number)
         {
             var result = new StringBuilder();
-
             var numberParts = SplitNumber(number);
 
             foreach (var numberPart in numberParts)
-            {
                 result.Append(ConvertNumberPart(numberPart));
-            }
 
             return result.ToString();
         }
@@ -25,43 +37,28 @@ namespace RomanNumerals
             var countZeros = GetCountDigits(number) - 1;
             var firstDigit = number / (int) Math.Pow(10, countZeros);
 
-            var romanDigitsOne = new Dictionary<int, char>()
-            {
-                [0] = 'I',
-                [1] = 'X',
-                [2] = 'C',
-                [3] = 'M',
-            };
-            
-            var romanDigitsFive = new Dictionary<int, char>()
-            {
-                [0] = 'V',
-                [1] = 'L',
-                [2] = 'D'
-            };
-            
             switch (firstDigit)
             {
                 case < 4:
-                    return new string(romanDigitsOne[countZeros], firstDigit);
+                    return new string(RomanDigitsOne[countZeros], firstDigit);
                 case 4:
                     return new string(new[]
                     {
-                        romanDigitsOne[countZeros],
-                        romanDigitsFive[countZeros]
+                        RomanDigitsOne[countZeros],
+                        RomanDigitsFive[countZeros]
                     });
                 case 5:
-                    return romanDigitsFive[countZeros].ToString();
+                    return RomanDigitsFive[countZeros].ToString();
                 case 9:
                     return new string(new[]
                     {
-                        romanDigitsOne[countZeros],
-                        romanDigitsOne[countZeros + 1]
+                        RomanDigitsOne[countZeros],
+                        RomanDigitsOne[countZeros + 1]
                     });
                 default:
                 {
                     var repeatCount = firstDigit - 5;
-                    return romanDigitsFive[countZeros] + new string(romanDigitsOne[countZeros], repeatCount);
+                    return RomanDigitsFive[countZeros] + new string(RomanDigitsOne[countZeros], repeatCount);
                 }
             }
         }
