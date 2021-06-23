@@ -54,53 +54,44 @@ namespace RomanNumerals
             var countZeros = GetCountDigits(number) - 1;
             var firstDigit = number / (int) Math.Pow(10, countZeros);
 
-            var romanDigitsByCountZerosBefore4 = new Dictionary<int, char>()
+            var romanDigitsOne = new Dictionary<int, char>()
             {
                 [0] = 'I',
                 [1] = 'X',
                 [2] = 'C'
             };
             
-            var romanDigitsByCountZeros5 = new Dictionary<int, char>()
+            var romanDigitsFive = new Dictionary<int, char>()
             {
                 [0] = 'V',
                 [1] = 'L',
                 [2] = 'D'
             };
             
-            if (firstDigit < 4)
+            switch (firstDigit)
             {
-                return RepeatChar(romanDigitsByCountZerosBefore4[countZeros], firstDigit);
+                case < 4:
+                    return new string(romanDigitsOne[countZeros], firstDigit);
+                case 4:
+                    return new string(new[]
+                    {
+                        romanDigitsOne[countZeros],
+                        romanDigitsFive[countZeros]
+                    });
+                case 5:
+                    return romanDigitsFive[countZeros].ToString();
+                case 9:
+                    return new string(new[]
+                    {
+                        romanDigitsOne[countZeros],
+                        romanDigitsOne[countZeros + 1]
+                    });
+                default:
+                {
+                    var repeatCount = firstDigit - 5;
+                    return romanDigitsFive[countZeros] + new string(romanDigitsOne[countZeros], repeatCount);
+                }
             }
-
-            if (firstDigit == 4)
-            {
-                return romanDigitsByCountZerosBefore4[countZeros].ToString() + romanDigitsByCountZeros5[countZeros];
-            }
-
-            if (firstDigit == 5)
-            {
-                return romanDigitsByCountZeros5[countZeros].ToString();
-            }
-
-            if (firstDigit == 9)
-            {
-                return romanDigitsByCountZerosBefore4[countZeros].ToString() +
-                       romanDigitsByCountZerosBefore4[countZeros + 1];
-            }
-
-            var repeatCount = firstDigit - 5;
-
-            return romanDigitsByCountZeros5[countZeros] +
-                   RepeatChar(romanDigitsByCountZerosBefore4[countZeros], repeatCount);
-        }
-
-        private static string RepeatChar(char ch, int count)
-        {
-            var buf = new char[count];
-            for (var i = 0; i < count; i++)
-                buf[i] = ch;
-            return new string(buf);
         }
 
         private static IEnumerable<int> SplitNumber(int number)
