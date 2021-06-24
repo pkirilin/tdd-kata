@@ -37,6 +37,12 @@ namespace RomanNumerals
             var countZeros = GetCountDigits(number) - 1;
             var firstDigit = number / (int) Math.Pow(10, countZeros);
 
+            if (countZeros > 3)
+            {
+                var repeatCount = number / (int) Math.Pow(10, 3);
+                return new string('M', repeatCount);
+            }
+
             switch (firstDigit)
             {
                 case < 4:
@@ -70,7 +76,9 @@ namespace RomanNumerals
 
             for (var i = 0; i < countDigits; i++)
             {
-                splittedNumbers.Push(number % 10 * (int) Math.Pow(10, i));
+                var numberPart = number % 10 * (int) Math.Pow(10, i);
+                if (numberPart > 0)
+                    splittedNumbers.Push(numberPart);
                 number /= 10;
             }
 

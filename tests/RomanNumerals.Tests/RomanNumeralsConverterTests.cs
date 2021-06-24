@@ -64,5 +64,17 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(1999).Should().Be("MCMXCIX");
         }
+        
+        [Fact]
+        public void ShouldReturn_MMMMMMMMMM_WhenInputIs_10000()
+        {
+            RomanNumeralsConverter.Convert(10000).Should().Be("MMMMMMMMMM");
+        }
+        
+        [Fact]
+        public void ShouldReturn_MMMMMMMMMMMMCCCXLV_WhenInputIs_12345()
+        {
+            RomanNumeralsConverter.Convert(12345).Should().Be("MMMMMMMMMMMMCCCXLV");
+        }
     }
 }
