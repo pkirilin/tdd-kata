@@ -6,20 +6,8 @@ namespace RomanNumerals
 {
     public static class RomanNumeralsConverter
     {
-        private static readonly IReadOnlyDictionary<int, char> RomanDigitsOne = new Dictionary<int, char>()
-        {
-            [0] = 'I',
-            [1] = 'X',
-            [2] = 'C',
-            [3] = 'M',
-        };
-        
-        private static readonly IReadOnlyDictionary<int, char> RomanDigitsFive = new Dictionary<int, char>()
-        {
-            [0] = 'V',
-            [1] = 'L',
-            [2] = 'D',
-        };
+        private static readonly char[] RomanDigitsOne = {'I', 'X', 'C', 'M'};
+        private static readonly char[] RomanDigitsFive = {'V', 'L', 'D'};
         
         public static string Convert(int number)
         {
@@ -40,7 +28,7 @@ namespace RomanNumerals
             if (countZeros > 3)
             {
                 var repeatCount = number / (int) Math.Pow(10, 3);
-                return new string('M', repeatCount);
+                return new string(RomanDigitsOne[3], repeatCount);
             }
 
             switch (firstDigit)
