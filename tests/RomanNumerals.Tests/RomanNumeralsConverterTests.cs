@@ -76,5 +76,13 @@ namespace RomanNumerals.Tests
         {
             RomanNumeralsConverter.Convert(12345).Should().Be("MMMMMMMMMMMMCCCXLV");
         }
+        
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public void ShouldReturnEmptyString_WhenInputIsLessThanOrEqualZero(int number)
+        {
+            RomanNumeralsConverter.Convert(number).Should().BeEmpty();
+        }
     }
 }
