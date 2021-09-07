@@ -1,60 +1,50 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
+using BankingKata.Abstractions;
 
 namespace BankingKata
 {
-    public class Account
+    public class Account : IAccount
     {
-        private int _balance;
-        private readonly List<Operation> _operations;
+        private readonly List<OperationHistoryRecord> _operationsHistory;
 
         public Account()
         {
-            _balance = 0;
-            _operations = new List<Operation>();
+            Balance = 0;
+            _operationsHistory = new List<OperationHistoryRecord>();
         }
-        
+
+        public int Balance { get; private set; }
+
         public void Deposit(int amount)
         {
-            _balance += amount;
-            _operations.Add(new Operation
-            {
-                Date = DateTime.Now,
-                Type = OperationType.Deposit,
-                Amount = amount,
-                Balance = _balance
-            });
+            PerformOperation(new DepositOperation(amount));
         }
         
         public void Withdraw(int amount)
         {
-            _balance -= amount;
-            _operations.Add(new Operation
-            {
-                Date = DateTime.Now,
-                Type = OperationType.Withdraw,
-                Amount = amount,
-                Balance = _balance
-            });
+            PerformOperation(new WithdrawOperation(amount));
         }
 
         public string PrintStatement()
         {
             var statementBuilder = new StringBuilder();
             
-            foreach (var operation in _operations)
+            foreach (var historyRecord in _operationsHistory)
             {
-                var signSymbol = operation.Type == OperationType.Deposit ? '+' : '-';
-
-                statementBuilder.AppendFormat("Date: {0:yyyy-MM-dd}, amount: {1}{2}, balance: {3}\n",
-                    operation.Date,
-                    signSymbol,
-                    operation.Amount,
-                    operation.Balance);
+                statementBuilder.AppendFormat("Date: {0:yyyy-MM-dd}, amount: {1}, balance: {2}\n",
+                    historyRecord.Operation.Date,
+                    historyRecord.Operation.GetVisualAmount(),
+                    historyRecord.CurrentBalance);
             }
 
             return statementBuilder.ToString();
+        }
+
+        private void PerformOperation(Operation operation)
+        {
+            Balance = operation.Apply(this);
+            _operationsHistory.Add(new OperationHistoryRecord(operation, Balance));
         }
     }
 }
