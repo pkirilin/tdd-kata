@@ -17,7 +17,7 @@ namespace BankingKata.Tests
 
             statement.Should().Be(
                 $"Date: {DateTime.Now:yyyy-MM-dd}, amount: +500, balance: 500\n" +
-                $"Date: {DateTime.Now:yyyy-MM-dd}, amount: -100, balance: 400");
+                $"Date: {DateTime.Now:yyyy-MM-dd}, amount: -100, balance: 400\n");
         }
     }
 }
