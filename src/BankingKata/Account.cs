@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Text;
+using BankingKata.History;
 using BankingKata.Operations;
 
 namespace BankingKata
@@ -7,15 +7,17 @@ namespace BankingKata
     public class Account : IAccount
     {
         private int _balance;
-        private readonly List<OperationHistoryRecord> _operationsHistory;
+        private readonly List<StatementItem> _statementItems;
 
         public Account()
         {
             _balance = 0;
-            _operationsHistory = new List<OperationHistoryRecord>();
+            _statementItems = new List<StatementItem>();
         }
 
         public int GetBalance() => _balance;
+
+        public IEnumerable<StatementItem> GetStatement() => _statementItems;
 
         public void Deposit(int amount)
         {
@@ -31,25 +33,18 @@ namespace BankingKata
 
         public string PrintStatement()
         {
-            // TODO: move logic to printer class
-            
-            var statementBuilder = new StringBuilder();
-            
-            foreach (var historyRecord in _operationsHistory)
-            {
-                statementBuilder.AppendFormat("Date: {0:yyyy-MM-dd}, amount: {1}, balance: {2}\n",
-                    historyRecord.Operation.Date,
-                    historyRecord.Operation.GetVisualAmount(),
-                    historyRecord.CurrentBalance);
-            }
-
-            return statementBuilder.ToString();
+            return FormatStatement(new ConsoleStatementFormatter());
         }
 
         private void PerformOperation(Operation operation)
         {
             _balance = operation.Apply(this);
-            _operationsHistory.Add(new OperationHistoryRecord(operation, _balance));
+            _statementItems.Add(new StatementItem(operation, _balance));
+        }
+
+        private string FormatStatement(IStatementFormatter statementFormatter)
+        {
+            return statementFormatter.Format(this);
         }
     }
 }

@@ -1,14 +1,14 @@
 using BankingKata.Operations;
 
-namespace BankingKata
+namespace BankingKata.History
 {
-    public class OperationHistoryRecord
+    public class StatementItem
     {
         public Operation Operation { get; }
 
-        public int CurrentBalance { get; set; }
+        public int CurrentBalance { get; }
 
-        public OperationHistoryRecord(Operation operation, int currentBalance)
+        public StatementItem(Operation operation, int currentBalance)
         {
             Operation = operation;
             CurrentBalance = currentBalance;
