@@ -1,6 +1,6 @@
 using System;
 
-namespace BankingKata.Abstractions
+namespace BankingKata.Operations
 {
     public abstract class Operation
     {

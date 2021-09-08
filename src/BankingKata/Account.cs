@@ -1,33 +1,38 @@
 using System.Collections.Generic;
 using System.Text;
-using BankingKata.Abstractions;
+using BankingKata.Operations;
 
 namespace BankingKata
 {
     public class Account : IAccount
     {
+        private int _balance;
         private readonly List<OperationHistoryRecord> _operationsHistory;
 
         public Account()
         {
-            Balance = 0;
+            _balance = 0;
             _operationsHistory = new List<OperationHistoryRecord>();
         }
 
-        public int Balance { get; private set; }
+        public int GetBalance() => _balance;
 
         public void Deposit(int amount)
         {
+            // TODO: validate amount
             PerformOperation(new DepositOperation(amount));
         }
         
         public void Withdraw(int amount)
         {
+            // TODO: validate amount
             PerformOperation(new WithdrawOperation(amount));
         }
 
         public string PrintStatement()
         {
+            // TODO: move logic to printer class
+            
             var statementBuilder = new StringBuilder();
             
             foreach (var historyRecord in _operationsHistory)
@@ -43,8 +48,8 @@ namespace BankingKata
 
         private void PerformOperation(Operation operation)
         {
-            Balance = operation.Apply(this);
-            _operationsHistory.Add(new OperationHistoryRecord(operation, Balance));
+            _balance = operation.Apply(this);
+            _operationsHistory.Add(new OperationHistoryRecord(operation, _balance));
         }
     }
 }

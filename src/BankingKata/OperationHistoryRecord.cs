@@ -1,4 +1,4 @@
-using BankingKata.Abstractions;
+using BankingKata.Operations;
 
 namespace BankingKata
 {

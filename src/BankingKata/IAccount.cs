@@ -1,8 +1,8 @@
-namespace BankingKata.Abstractions
+namespace BankingKata
 {
     public interface IAccount
     {
-        int Balance { get; }
+        int GetBalance();
 
         void Deposit(int amount);
 

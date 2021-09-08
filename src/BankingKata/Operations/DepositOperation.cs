@@ -1,6 +1,4 @@
-using BankingKata.Abstractions;
-
-namespace BankingKata
+namespace BankingKata.Operations
 {
     public class DepositOperation : Operation
     {
@@ -10,7 +8,7 @@ namespace BankingKata
         
         public override int Apply(IAccount account)
         {
-            return account.Balance + Amount;
+            return account.GetBalance() + Amount;
         }
 
         public override string GetVisualAmount()

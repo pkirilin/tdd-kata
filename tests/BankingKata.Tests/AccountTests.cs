@@ -1,5 +1,4 @@
 using System;
-using BankingKata.Abstractions;
 using FluentAssertions;
 using Xunit;
 
