@@ -1,3 +1,5 @@
+using System;
+
 namespace BankingKata.Operations
 {
     public class WithdrawOperation : Operation
@@ -8,7 +10,12 @@ namespace BankingKata.Operations
 
         public override int Apply(IAccount account)
         {
-            return account.GetBalance() - Amount;
+            var balance = account.GetBalance();
+            
+            if (balance < Amount)
+                throw new InvalidOperationException($"Cannot withdraw amount = {Amount} from balance = {balance}");
+
+            return balance - Amount;
         }
         
         public override string GetVisualAmount()
