@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BankingKata.History;
 using BankingKata.Operations;
+using BankingKata.Tests.Fixtures;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -14,16 +15,8 @@ namespace BankingKata.Tests
 
         private static IEnumerable<StatementItem> GenerateStatementItemsForTest()
         {
-            yield return new StatementItem(new DepositOperation(GenerateTestCurrency(500)), 500);
-            yield return new StatementItem(new WithdrawOperation(GenerateTestCurrency(100)), 400);
-        }
-
-        // TODO: move to fixtures
-        private static ICurrency GenerateTestCurrency(int amount)
-        {
-            var currencyMock = new Mock<ICurrency>();
-            currencyMock.Setup(c => c.GetAmount()).Returns(amount);
-            return currencyMock.Object;
+            yield return new StatementItem(new DepositOperation(Create.Currency(500)), 500);
+            yield return new StatementItem(new WithdrawOperation(Create.Currency(100)), 400);
         }
 
         [Fact]
