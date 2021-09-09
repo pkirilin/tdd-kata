@@ -10,10 +10,18 @@ namespace BankingKata.Tests
     {
         private readonly Mock<IAccount> _accountMock = new();
 
+        // TODO: move to fixtures
+        private static ICurrency GenerateTestCurrency(int amount)
+        {
+            var currencyMock = new Mock<ICurrency>();
+            currencyMock.Setup(c => c.GetAmount()).Returns(amount);
+            return currencyMock.Object;
+        }
+        
         [Fact]
         public void WhenAmountIsLessOrEqualAccountBalance_ShouldReturnAccountBalanceWithoutAmount()
         {
-            var operation = new WithdrawOperation(100);
+            var operation = new WithdrawOperation(GenerateTestCurrency(100));
             _accountMock.Setup(a => a.GetBalance()).Returns(300);
 
             var newBalance = operation.Apply(_accountMock.Object);
@@ -24,7 +32,7 @@ namespace BankingKata.Tests
         [Fact]
         public void WhenAmountIsGreaterThanAccountBalance_ShouldThrowException()
         {
-            var operation = new WithdrawOperation(100);
+            var operation = new WithdrawOperation(GenerateTestCurrency(100));
             _accountMock.Setup(a => a.GetBalance()).Returns(50);
             
             Action action = () =>

@@ -2,18 +2,18 @@ namespace BankingKata.Operations
 {
     public class DepositOperation : Operation
     {
-        public DepositOperation(int amount) : base(amount)
+        public DepositOperation(ICurrency currency) : base(currency)
         {
         }
         
         public override int Apply(IAccount account)
         {
-            return account.GetBalance() + Amount;
+            return account.GetBalance() + Currency.GetAmount();
         }
 
         public override string GetVisualAmount()
         {
-            return $"+{Amount}";
+            return $"+{Currency.GetAmount()}";
         }
     }
 }

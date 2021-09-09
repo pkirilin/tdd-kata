@@ -11,7 +11,7 @@ namespace BankingKata.Tests
         {
             var currency = new Currency(300);
 
-            currency.Amount.Should().Be(300);
+            currency.GetAmount().Should().Be(300);
         }
         
         [Fact]

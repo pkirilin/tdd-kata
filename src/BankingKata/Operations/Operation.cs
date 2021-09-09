@@ -4,13 +4,13 @@ namespace BankingKata.Operations
 {
     public abstract class Operation
     {
-        public int Amount { get; }
+        protected ICurrency Currency { get; }
 
         public DateTime Date { get; }
 
-        protected Operation(int amount)
+        protected Operation(ICurrency currency)
         {
-            Amount = amount;
+            Currency = currency;
             Date = DateTime.Now;
         }
         

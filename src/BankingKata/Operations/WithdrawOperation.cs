@@ -4,23 +4,24 @@ namespace BankingKata.Operations
 {
     public class WithdrawOperation : Operation
     {
-        public WithdrawOperation(int amount) : base(amount)
+        public WithdrawOperation(ICurrency currency) : base(currency)
         {
         }
 
         public override int Apply(IAccount account)
         {
             var balance = account.GetBalance();
+            var amount = Currency.GetAmount();
             
-            if (balance < Amount)
-                throw new InvalidOperationException($"Cannot withdraw amount = {Amount} from balance = {balance}");
+            if (balance < amount)
+                throw new InvalidOperationException($"Cannot withdraw amount = {amount} from balance = {balance}");
 
-            return balance - Amount;
+            return balance - amount;
         }
         
         public override string GetVisualAmount()
         {
-            return $"-{Amount}";
+            return $"-{Currency.GetAmount()}";
         }
     }
 }

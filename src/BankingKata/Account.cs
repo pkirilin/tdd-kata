@@ -15,20 +15,20 @@ namespace BankingKata
             _statementItems = new List<StatementItem>();
         }
 
-        public int GetBalance() => _balance.Amount;
+        public int GetBalance() => _balance.GetAmount();
 
         public IEnumerable<StatementItem> GetStatement() => _statementItems;
 
         public void Deposit(int amount)
         {
-            // TODO: validate amount
-            PerformOperation(new DepositOperation(amount));
+            var currency = new Currency(amount);
+            PerformOperation(new DepositOperation(currency));
         }
         
         public void Withdraw(int amount)
         {
-            // TODO: validate amount
-            PerformOperation(new WithdrawOperation(amount));
+            var currency = new Currency(amount);
+            PerformOperation(new WithdrawOperation(currency));
         }
 
         public string PrintStatement()
@@ -39,7 +39,7 @@ namespace BankingKata
         private void PerformOperation(Operation operation)
         {
             _balance = new Currency(operation.Apply(this));
-            _statementItems.Add(new StatementItem(operation, _balance.Amount));
+            _statementItems.Add(new StatementItem(operation, _balance.GetAmount()));
         }
 
         private string FormatStatement(IStatementFormatter statementFormatter)

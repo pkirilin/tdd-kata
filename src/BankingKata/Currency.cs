@@ -2,21 +2,23 @@ using System;
 
 namespace BankingKata
 {
-    public class Currency
+    public class Currency : ICurrency
     {
-        public int Amount { get; }
-
+        private readonly int _amount;
+        
         public Currency()
         {
-            Amount = 0;
+            _amount = 0;
         }
 
         public Currency(int amount)
         {
             if (amount < 0)
                 throw new ArgumentException("Currency amount cannot be less than zero");
-            
-            Amount = amount;
+
+            _amount = amount;
         }
+
+        public int GetAmount() => _amount;
     }
 }

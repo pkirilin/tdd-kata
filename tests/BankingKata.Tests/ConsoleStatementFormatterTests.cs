@@ -14,8 +14,16 @@ namespace BankingKata.Tests
 
         private static IEnumerable<StatementItem> GenerateStatementItemsForTest()
         {
-            yield return new StatementItem(new DepositOperation(500), 500);
-            yield return new StatementItem(new WithdrawOperation(100), 400);
+            yield return new StatementItem(new DepositOperation(GenerateTestCurrency(500)), 500);
+            yield return new StatementItem(new WithdrawOperation(GenerateTestCurrency(100)), 400);
+        }
+
+        // TODO: move to fixtures
+        private static ICurrency GenerateTestCurrency(int amount)
+        {
+            var currencyMock = new Mock<ICurrency>();
+            currencyMock.Setup(c => c.GetAmount()).Returns(amount);
+            return currencyMock.Object;
         }
 
         [Fact]
