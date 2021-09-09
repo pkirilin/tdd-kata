@@ -6,16 +6,16 @@ namespace BankingKata
 {
     public class Account : IAccount
     {
-        private int _balance;
+        private Currency _balance;
         private readonly List<StatementItem> _statementItems;
 
         public Account()
         {
-            _balance = 0;
+            _balance = new Currency();
             _statementItems = new List<StatementItem>();
         }
 
-        public int GetBalance() => _balance;
+        public int GetBalance() => _balance.Amount;
 
         public IEnumerable<StatementItem> GetStatement() => _statementItems;
 
@@ -38,8 +38,8 @@ namespace BankingKata
 
         private void PerformOperation(Operation operation)
         {
-            _balance = operation.Apply(this);
-            _statementItems.Add(new StatementItem(operation, _balance));
+            _balance = new Currency(operation.Apply(this));
+            _statementItems.Add(new StatementItem(operation, _balance.Amount));
         }
 
         private string FormatStatement(IStatementFormatter statementFormatter)
