@@ -22,8 +22,8 @@ namespace BankingKata.Tests
         [Fact]
         public void WhenAmountIsGreaterThanAccountBalance_ShouldThrowException()
         {
-            var operation = new WithdrawOperation(Create.Currency(100));
-            var account = Create.AccountWithBalance(300);
+            var operation = new WithdrawOperation(Create.Currency(300));
+            var account = Create.AccountWithBalance(100);
             
             Action action = () =>
             {
