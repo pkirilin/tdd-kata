@@ -10,5 +10,12 @@ namespace BankingKata.Tests.Fixtures
             currencyMock.Setup(c => c.GetAmount()).Returns(amount);
             return currencyMock.Object;
         }
+
+        public static IAccount AccountWithBalance(int amount)
+        {
+            var accountMock = new Mock<IAccount>();
+            accountMock.Setup(a => a.GetBalance()).Returns(amount);
+            return accountMock.Object;
+        }
     }
 }
