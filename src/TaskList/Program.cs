@@ -4,6 +4,6 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        new Application(new RealConsole()).Run();
+        new Application(new RealConsole(), null).Run();
     }
 }

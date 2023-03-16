@@ -9,7 +9,7 @@ public class Application
 
     private long _lastId = 0;
 
-    public Application(IConsole console)
+    public Application(IConsole console, IDateProvider dateProvider)
     {
         _console = console;
     }

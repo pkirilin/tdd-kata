@@ -6,13 +6,15 @@ public class ApplicationTests
     private const string Prompt = "> ";
 
     private FakeConsole? _console;
+    private FakeDateProvider? _dateProvider;
     private Thread? _applicationThread;
 
     [SetUp]
     public void StartTheApplication()
     {
         _console = new FakeConsole();
-        var taskList = new Application(_console);
+        _dateProvider = new FakeDateProvider();
+        var taskList = new Application(_console, _dateProvider);
         _applicationThread = new Thread(() => taskList.Run());
         _applicationThread.Start();
     }
@@ -24,7 +26,7 @@ public class ApplicationTests
         {
             return;
         }
-
+        
         _applicationThread.Abort();
         throw new Exception("The application is still running.");
     }
@@ -75,6 +77,36 @@ public class ApplicationTests
             ""
         );
 
+        Execute("quit");
+    }
+
+    [Test, Timeout(1000)]
+    public void User_can_give_a_task_an_optional_deadline()
+    {
+        Execute("add project main");
+        Execute("add task main Read a book");
+        Execute("add task main Buy food");
+        
+        Execute("show");
+        ReadLines(
+            "main",
+            "    [ ] 1: Read a book",
+            "    [ ] 2: Buy food",
+            ""
+        );
+        
+        Execute("deadline 1 2023-03-20");
+        Execute("today");
+        ReadLines(
+            "main",
+            "    [ ] 1: Read a book",
+            "    [ ] 2: Buy food",
+            "",
+            "main",
+            "    [ ] 1: Read a book",
+            ""
+        );
+        
         Execute("quit");
     }
 
