@@ -1,4 +1,4 @@
-namespace TaskList.Tests;
+namespace TaskList.Tests.Fakes.Console;
 
 class ProducerConsumerStream : Stream
 {

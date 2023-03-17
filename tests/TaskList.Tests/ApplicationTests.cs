@@ -1,3 +1,6 @@
+using TaskList.Tests.Fakes;
+using TaskList.Tests.Fakes.Console;
+
 namespace TaskList.Tests;
 
 [TestFixture]
