@@ -1,14 +1,16 @@
+using TaskList.Entities;
+using Task = TaskList.Entities.Task;
+
 namespace TaskList;
 
 public class Application
 {
     private const string Quit = "quit";
 
-    private readonly IDictionary<string, IList<Task>> _tasks = new Dictionary<string, IList<Task>>();
+    private readonly List<Project> _projects = new();
     private readonly IConsole _console;
     private readonly IClock _clock;
-
-    private long _lastId = 0;
+    private long _lastId;
 
     public Application(IConsole console, IClock clock)
     {
@@ -69,10 +71,11 @@ public class Application
 
     private void Show()
     {
-        foreach (var project in _tasks)
+        foreach (var project in _projects)
         {
-            _console.WriteLine(project.Key);
-            foreach (var task in project.Value)
+            _console.WriteLine(project.Name);
+            
+            foreach (var task in project.Tasks)
             {
                 _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
             }
@@ -98,18 +101,31 @@ public class Application
 
     private void AddProject(string name)
     {
-        _tasks[name] = new List<Task>();
+        _projects.Add(new Project
+        {
+            Name = name,
+            Tasks = new List<Task>()
+        });
     }
 
-    private void AddTask(string project, string description)
+    private void AddTask(string projectName, string description)
     {
-        if (!_tasks.TryGetValue(project, out IList<Task> projectTasks))
+        var project = _projects.FirstOrDefault(p => p.Name == projectName);
+
+        if (project is null)
         {
-            Console.WriteLine("Could not find a project with the name \"{0}\".", project);
+            Console.WriteLine("Could not find a project with the name \"{0}\".", projectName);
             return;
         }
 
-        projectTasks.Add(new Task { Id = NextId(), Description = description, Done = false });
+        var task = new Task
+        {
+            Id = NextId(),
+            Description = description,
+            Done = false
+        };
+        
+        project.Tasks.Add(task);
     }
 
     private void Check(string idString)
@@ -124,18 +140,19 @@ public class Application
 
     private void SetDone(string idString, bool done)
     {
-        int id = int.Parse(idString);
-        var identifiedTask = _tasks
-            .Select(project => project.Value.FirstOrDefault(task => task.Id == id))
-            .Where(task => task != null)
-            .FirstOrDefault();
-        if (identifiedTask == null)
+        var id = int.Parse(idString);
+        
+        var taskToUpdate = _projects
+            .SelectMany(p => p.Tasks)
+            .FirstOrDefault(t => t.Id == id);
+
+        if (taskToUpdate is null)
         {
             _console.WriteLine("Could not find a task with an ID of {0}.", id);
             return;
         }
 
-        identifiedTask.Done = done;
+        taskToUpdate.Done = done;
     }
 
     private void Help()
@@ -152,11 +169,12 @@ public class Application
     private void SetDeadline(string taskId, string deadlineDateRaw)
     {
         var id = int.Parse(taskId);
-        var identifiedTask = _tasks
-            .Select(project => project.Value.FirstOrDefault(task => task.Id == id))
-            .FirstOrDefault(task => task != null);
         
-        if (identifiedTask == null)
+        var taskToUpdate = _projects
+            .SelectMany(p => p.Tasks)
+            .FirstOrDefault(t => t.Id == id);
+
+        if (taskToUpdate is null)
         {
             _console.WriteLine("Could not find a task with an ID of {0}.", id);
             return;
@@ -168,28 +186,25 @@ public class Application
             return;
         }
 
-        identifiedTask.DueOn = deadlineDate;
+        taskToUpdate.DueOn = deadlineDate;
     }
 
     private void ShowTasksDueToday()
     {
         var todayDate = _clock.CurrentDateUtc;
-
-        foreach (var project in _tasks)
+        var projectsWithTasksDueToday = _projects.Where(project => project.Tasks.Any(task => task.DueOn == todayDate));
+        
+        foreach (var project in projectsWithTasksDueToday)
         {
-            if (project.Value.Any(task => task.DueOn == todayDate))
+            _console.WriteLine(project.Name);
+            var tasksDueToday = project.Tasks.Where(task => task.DueOn == todayDate);
+            
+            foreach (var task in tasksDueToday)
             {
-                _console.WriteLine(project.Key);
-                foreach (var task in project.Value)
-                {
-                    if (task.DueOn == todayDate)
-                    {
-                        _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
-                    }
-                }
-
-                _console.WriteLine();
+                _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
             }
+
+            _console.WriteLine();
         }
     }
 
