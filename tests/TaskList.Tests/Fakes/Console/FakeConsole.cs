@@ -1,53 +1,53 @@
 namespace TaskList.Tests.Fakes.Console;
 
-public class FakeConsole : IConsole
+internal class FakeConsole : IConsole
 {
-    private readonly TextReader inputReader;
-    private readonly TextWriter inputWriter;
+    private readonly TextReader _inputReader;
+    private readonly TextWriter _inputWriter;
 
-    private readonly TextReader outputReader;
-    private readonly TextWriter outputWriter;
+    private readonly TextReader _outputReader;
+    private readonly TextWriter _outputWriter;
 
     public FakeConsole() 
     {
         Stream inputStream = new BlockingStream(new ProducerConsumerStream());
-        this.inputReader = new StreamReader(inputStream);
-        this.inputWriter = new StreamWriter(inputStream) { AutoFlush = true };
+        _inputReader = new StreamReader(inputStream);
+        _inputWriter = new StreamWriter(inputStream) { AutoFlush = true };
 
         Stream outputStream = new BlockingStream(new ProducerConsumerStream());
-        this.outputReader = new StreamReader(outputStream);
-        this.outputWriter = new StreamWriter(outputStream) { AutoFlush = true };
+        _outputReader = new StreamReader(outputStream);
+        _outputWriter = new StreamWriter(outputStream) { AutoFlush = true };
     }
 
-    public string ReadLine()
+    public string? ReadLine()
     {
-        return inputReader.ReadLine();
+        return _inputReader.ReadLine();
     }
 
     public void Write(string format, params object[] args)
     {
-        outputWriter.Write(format, args);
+        _outputWriter.Write(format, args);
     }
 
     public void WriteLine(string format, params object[] args)
     {
-        outputWriter.WriteLine(format, args);
+        _outputWriter.WriteLine(format, args);
     }
 
     public void WriteLine()
     {
-        outputWriter.WriteLine();
+        _outputWriter.WriteLine();
     }
 
     public void SendInput(string input)
     {
-        inputWriter.Write(input);
+        _inputWriter.Write(input);
     }
 
     public string RetrieveOutput(int length)
     {
         var buffer = new char[length];
-        outputReader.ReadBlock(buffer, 0, length);
+        _outputReader.ReadBlock(buffer, 0, length);
         return new string(buffer);
     }
 }

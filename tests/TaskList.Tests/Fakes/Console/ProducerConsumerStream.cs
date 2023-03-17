@@ -1,6 +1,6 @@
 namespace TaskList.Tests.Fakes.Console;
 
-class ProducerConsumerStream : Stream
+internal class ProducerConsumerStream : Stream
 {
     private readonly MemoryStream underlyingStream;
     private long readPosition = 0;
