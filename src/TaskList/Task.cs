@@ -7,4 +7,6 @@ public class Task
     public string Description { get; set; } = string.Empty;
     
     public bool Done { get; set; }
+
+    public DateOnly DueOn { get; set; }
 }

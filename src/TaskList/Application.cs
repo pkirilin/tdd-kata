@@ -6,12 +6,14 @@ public class Application
 
     private readonly IDictionary<string, IList<Task>> _tasks = new Dictionary<string, IList<Task>>();
     private readonly IConsole _console;
+    private readonly IDateProvider _dateProvider;
 
     private long _lastId = 0;
 
     public Application(IConsole console, IDateProvider dateProvider)
     {
         _console = console;
+        _dateProvider = dateProvider;
     }
 
     public void Run()
@@ -49,6 +51,15 @@ public class Application
                 break;
             case "help":
                 Help();
+                break;
+            case "deadline":
+                var deadlineOptions = commandRest[1]
+                        .Split(' ')
+                        .ToArray();
+                SetDeadline(deadlineOptions[0], deadlineOptions[1]);
+                break;
+            case "today":
+                ShowTasksDueToday();
                 break;
             default:
                 Error(command);
@@ -136,6 +147,50 @@ public class Application
         _console.WriteLine("  check <task ID>");
         _console.WriteLine("  uncheck <task ID>");
         _console.WriteLine();
+    }
+
+    private void SetDeadline(string taskId, string deadlineDateRaw)
+    {
+        var id = int.Parse(taskId);
+        var identifiedTask = _tasks
+            .Select(project => project.Value.FirstOrDefault(task => task.Id == id))
+            .FirstOrDefault(task => task != null);
+        
+        if (identifiedTask == null)
+        {
+            _console.WriteLine("Could not find a task with an ID of {0}.", id);
+            return;
+        }
+
+        if (!DateOnly.TryParse(deadlineDateRaw, out var deadlineDate))
+        {
+            _console.WriteLine($"Could not parse deadline date {deadlineDate}.");
+            return;
+        }
+
+        identifiedTask.DueOn = deadlineDate;
+    }
+
+    private void ShowTasksDueToday()
+    {
+        var todayDate = _dateProvider.GetCurrentDateUtc();
+
+        foreach (var project in _tasks)
+        {
+            if (project.Value.Any(task => task.DueOn == todayDate))
+            {
+                _console.WriteLine(project.Key);
+                foreach (var task in project.Value)
+                {
+                    if (task.DueOn == todayDate)
+                    {
+                        _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
+                    }
+                }
+
+                _console.WriteLine();
+            }
+        }
     }
 
     private void Error(string command)

@@ -98,13 +98,9 @@ public class ApplicationTests
         ReadLines(
             "main",
             "    [ ] 1: Read a book",
-            "    [ ] 2: Buy food",
-            "",
-            "main",
-            "    [ ] 1: Read a book",
             ""
         );
-        
+
         Execute("quit");
     }
 
