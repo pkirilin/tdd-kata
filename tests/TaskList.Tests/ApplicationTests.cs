@@ -9,7 +9,7 @@ public class ApplicationTests
     private const string Prompt = "> ";
 
     private FakeConsole? _console;
-    private FakeDateProvider? _dateProvider;
+    private FakeClock? _dateProvider;
     private CancellationTokenSource? _cancellationTokenSource;
     private System.Threading.Tasks.Task? _applicationTask;
 
@@ -17,7 +17,7 @@ public class ApplicationTests
     public void StartTheApplication()
     {
         _console = new FakeConsole();
-        _dateProvider = new FakeDateProvider();
+        _dateProvider = new FakeClock();
         var application = new Application(_console, _dateProvider);
         _cancellationTokenSource = new CancellationTokenSource();
         _applicationTask = System.Threading.Tasks.Task.Run(() => application.Run(), _cancellationTokenSource.Token);

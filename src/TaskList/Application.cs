@@ -6,14 +6,14 @@ public class Application
 
     private readonly IDictionary<string, IList<Task>> _tasks = new Dictionary<string, IList<Task>>();
     private readonly IConsole _console;
-    private readonly IDateProvider _dateProvider;
+    private readonly IClock _clock;
 
     private long _lastId = 0;
 
-    public Application(IConsole console, IDateProvider dateProvider)
+    public Application(IConsole console, IClock clock)
     {
         _console = console;
-        _dateProvider = dateProvider;
+        _clock = clock;
     }
 
     public void Run()
@@ -173,7 +173,7 @@ public class Application
 
     private void ShowTasksDueToday()
     {
-        var todayDate = _dateProvider.GetCurrentDateUtc();
+        var todayDate = _clock.CurrentDateUtc;
 
         foreach (var project in _tasks)
         {
