@@ -1,3 +1,4 @@
+using TaskList.Commands;
 using TaskList.Entities;
 using TaskList.Services;
 using Task = TaskList.Entities.Task;
@@ -57,10 +58,8 @@ public class Application
                 Help();
                 break;
             case "deadline":
-                var deadlineOptions = commandRest[1]
-                        .Split(' ')
-                        .ToArray();
-                SetDeadline(deadlineOptions[0], deadlineOptions[1]);
+                var deadlineCommand = new DeadlineCommand(commandRest[1], _projectsService, _console);
+                deadlineCommand.Execute();
                 break;
             case "today":
                 ShowTasksDueToday();
@@ -156,26 +155,6 @@ public class Application
         _console.WriteLine("  check <task ID>");
         _console.WriteLine("  uncheck <task ID>");
         _console.WriteLine();
-    }
-
-    private void SetDeadline(string taskId, string deadlineDateRaw)
-    {
-        var id = long.Parse(taskId);
-        var taskToUpdate = _projectsService.FindTaskById(id);
-
-        if (taskToUpdate is null)
-        {
-            _console.WriteLine("Could not find a task with an ID of {0}.", id);
-            return;
-        }
-
-        if (!DateOnly.TryParse(deadlineDateRaw, out var deadlineDate))
-        {
-            _console.WriteLine($"Could not parse deadline date {deadlineDate}.");
-            return;
-        }
-
-        taskToUpdate.SetDeadline(deadlineDate);
     }
 
     private void ShowTasksDueToday()

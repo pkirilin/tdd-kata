@@ -4,13 +4,13 @@ namespace TaskList.Tests.Dsl.Builders;
 
 public class TaskBuilder
 {
-    private long _nextId;
-    private string? _description;
+    private long _id = 1;
+    private readonly string? _description = null!;
     private DateOnly? _dueOn;
 
-    public TaskBuilder WithDescription(string description)
+    public TaskBuilder WithId(long id)
     {
-        _description = description;
+        _id = id;
         return this;
     }
 
@@ -22,7 +22,7 @@ public class TaskBuilder
     
     public Task Please()
     {
-        var task = new Task(++_nextId, _description ?? string.Empty);
+        var task = new Task(_id, _description ?? string.Empty);
 
         if (_dueOn.HasValue)
         {
