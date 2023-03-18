@@ -26,7 +26,7 @@ public class Application
         while (true)
         {
             _console.Write("> ");
-            var command = _console.ReadLine();
+            var command = _console.ReadLine() ?? Quit;
             if (command == Quit)
             {
                 break;
@@ -62,7 +62,8 @@ public class Application
                 deadlineCommand.Execute();
                 break;
             case "today":
-                ShowTasksDueToday();
+                var todayCommand = new TodayCommand(_projectsService, _console);
+                todayCommand.Execute();
                 break;
             default:
                 Error(command);
@@ -155,30 +156,6 @@ public class Application
         _console.WriteLine("  check <task ID>");
         _console.WriteLine("  uncheck <task ID>");
         _console.WriteLine();
-    }
-
-    private void ShowTasksDueToday()
-    {
-        var projects = _projectsService.GetAll();
-        
-        foreach (var project in projects)
-        {
-            var tasksDueToday = project.GetTasksDueToday();
-
-            if (!tasksDueToday.Any())
-            {
-                continue;
-            }
-            
-            _console.WriteLine(project.Name);
-                
-            foreach (var task in tasksDueToday)
-            {
-                _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
-            }
-                
-            _console.WriteLine();
-        }
     }
 
     private void Error(string command)

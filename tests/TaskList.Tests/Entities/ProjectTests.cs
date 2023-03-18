@@ -6,8 +6,6 @@ namespace TaskList.Tests.Entities;
 
 public class ProjectTests
 {
-    private readonly IClock _clock = new FakeClock();
-    
     [Test]
     public void Task_can_be_added_to_existing_project()
     {
@@ -25,7 +23,7 @@ public class ProjectTests
         var project = new Project("my project", new FakeClock());
 
         var task1 = Create.Task()
-            .WithDeadlineOnToday(_clock)
+            .WithDeadlineOnToday()
             .Please();
         var task2 = Create.Task().Please();
 

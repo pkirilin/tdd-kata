@@ -1,11 +1,14 @@
+using TaskList.Tests.Fakes;
 using Task = TaskList.Entities.Task;
 
 namespace TaskList.Tests.Dsl.Builders;
 
 public class TaskBuilder
 {
+    private static readonly IClock Clock = new FakeClock();
+    
     private long _id = 1;
-    private readonly string? _description = null!;
+    private string? _description;
     private DateOnly? _dueOn;
 
     public TaskBuilder WithId(long id)
@@ -14,9 +17,15 @@ public class TaskBuilder
         return this;
     }
 
-    public TaskBuilder WithDeadlineOnToday(IClock clock)
+    public TaskBuilder WithDescription(string description)
     {
-        _dueOn = clock.CurrentDateUtc;
+        _description = description;
+        return this;
+    }
+
+    public TaskBuilder WithDeadlineOnToday()
+    {
+        _dueOn = Clock.CurrentDateUtc;
         return this;
     }
     
