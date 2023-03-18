@@ -2,18 +2,18 @@ using TaskList.Services;
 
 namespace TaskList.Commands;
 
-public class TodayCommand : CommandBase
+public class TodayCommand : ICommand
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
 
-    public TodayCommand(IProjectsService projectsService, IConsole console) : base(string.Empty)
+    public TodayCommand(IProjectsService projectsService, IConsole console)
     {
         _projectsService = projectsService;
         _console = console;
     }
 
-    public override void Execute()
+    public void Execute()
     {
         var projects = _projectsService.GetAll();
         

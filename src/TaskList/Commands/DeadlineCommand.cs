@@ -2,7 +2,7 @@ using TaskList.Services;
 
 namespace TaskList.Commands;
 
-public class DeadlineCommand : CommandBase
+public class DeadlineCommand : ICommand
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
@@ -10,7 +10,7 @@ public class DeadlineCommand : CommandBase
     public DeadlineCommand(
         string commandLineArgs,
         IProjectsService projectsService,
-        IConsole console) : base(commandLineArgs)
+        IConsole console)
     {
         _projectsService = projectsService;
         _console = console;
@@ -26,7 +26,7 @@ public class DeadlineCommand : CommandBase
     public long TaskId { get; }
     public DateOnly DeadlineDate { get; }
 
-    public override void Execute()
+    public void Execute()
     {
         var taskToUpdate = _projectsService.FindTaskById(TaskId);
 
