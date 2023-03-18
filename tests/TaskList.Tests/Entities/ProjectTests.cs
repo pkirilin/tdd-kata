@@ -1,21 +1,18 @@
 using TaskList.Entities;
+using TaskList.Tests.Dsl;
 using TaskList.Tests.Fakes;
-using Task = TaskList.Entities.Task;
 
 namespace TaskList.Tests.Entities;
 
 public class ProjectTests
 {
+    private readonly IClock _clock = new FakeClock();
+    
     [Test]
     public void Task_can_be_added_to_existing_project()
     {
         var project = new Project("my project", new FakeClock());
-        var task = new Task
-        {
-            Id = 1,
-            Description = "First",
-            DueOn = DateOnly.Parse("2023-03-20")
-        };
+        var task = Create.Task().Please();
         
         project.AddTask(task);
         
@@ -26,21 +23,12 @@ public class ProjectTests
     public void All_tasks_due_today_are_received()
     {
         var project = new Project("my project", new FakeClock());
-        
-        var task1 = new Task
-        {
-            Id = 1,
-            Description = "First",
-            DueOn = DateOnly.Parse("2023-03-20")
-        };
-        
-        var task2 = new Task
-        {
-            Id = 2,
-            Description = "Second",
-            DueOn = DateOnly.Parse("2023-03-21")
-        };
-        
+
+        var task1 = Create.Task()
+            .WithDeadlineOnToday(_clock)
+            .Please();
+        var task2 = Create.Task().Please();
+
         project.AddTask(task1);
         project.AddTask(task2);
 

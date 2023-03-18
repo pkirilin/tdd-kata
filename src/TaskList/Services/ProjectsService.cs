@@ -1,4 +1,5 @@
 using TaskList.Entities;
+using Task = TaskList.Entities.Task;
 
 namespace TaskList.Services;
 
@@ -11,9 +12,16 @@ public class ProjectsService : IProjectsService
         return _projects;
     }
 
-    public Project? GetByName(string name)
+    public Project? FindByName(string name)
     {
         return _projects.FirstOrDefault(p => p.Name == name);
+    }
+
+    public Task? FindTaskById(long id)
+    {
+        return _projects
+            .SelectMany(p => p.Tasks)
+            .FirstOrDefault(t => t.Id == id);
     }
 
     public void Add(Project project)

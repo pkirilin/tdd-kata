@@ -111,7 +111,7 @@ public class Application
 
     private void AddTask(string projectName, string description)
     {
-        var project = _projectsService.GetByName(projectName);
+        var project = _projectsService.FindByName(projectName);
 
         if (project is null)
         {
@@ -119,13 +119,7 @@ public class Application
             return;
         }
 
-        var task = new Task
-        {
-            Id = NextId(),
-            Description = description,
-            Done = false
-        };
-        
+        var task = new Task(NextId(), description);
         project.AddTask(task);
     }
 
@@ -141,12 +135,8 @@ public class Application
 
     private void SetDone(string idString, bool done)
     {
-        var id = int.Parse(idString);
-        
-        var taskToUpdate = _projectsService
-            .GetAll()
-            .SelectMany(p => p.Tasks)
-            .FirstOrDefault(t => t.Id == id);
+        var id = long.Parse(idString);
+        var taskToUpdate = _projectsService.FindTaskById(id);
 
         if (taskToUpdate is null)
         {
@@ -170,12 +160,8 @@ public class Application
 
     private void SetDeadline(string taskId, string deadlineDateRaw)
     {
-        var id = int.Parse(taskId);
-        
-        var taskToUpdate = _projectsService
-            .GetAll()
-            .SelectMany(p => p.Tasks)
-            .FirstOrDefault(t => t.Id == id);
+        var id = long.Parse(taskId);
+        var taskToUpdate = _projectsService.FindTaskById(id);
 
         if (taskToUpdate is null)
         {
@@ -189,7 +175,7 @@ public class Application
             return;
         }
 
-        taskToUpdate.DueOn = deadlineDate;
+        taskToUpdate.SetDeadline(deadlineDate);
     }
 
     private void ShowTasksDueToday()
