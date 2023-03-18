@@ -1,9 +1,15 @@
-﻿namespace TaskList;
+﻿using TaskList.Services;
+
+namespace TaskList;
 
 public static class Program
 {
     public static void Main(string[] args)
     {
-        new Application(new RealConsole(), new Clock()).Run();
+        var clock = new Clock();
+        var projectsService = new ProjectsService();
+        var application = new Application(new RealConsole(), clock, projectsService);
+        
+        application.Run();
     }
 }

@@ -1,4 +1,5 @@
 using TaskList.Entities;
+using TaskList.Services;
 using Task = TaskList.Entities.Task;
 
 namespace TaskList;
@@ -6,16 +7,17 @@ namespace TaskList;
 public class Application
 {
     private const string Quit = "quit";
-
-    private readonly List<Project> _projects = new();
+    
     private readonly IConsole _console;
     private readonly IClock _clock;
+    private readonly IProjectsService _projectsService;
     private long _lastId;
 
-    public Application(IConsole console, IClock clock)
+    public Application(IConsole console, IClock clock, IProjectsService projectsService)
     {
         _console = console;
         _clock = clock;
+        _projectsService = projectsService;
     }
 
     public void Run()
@@ -71,7 +73,9 @@ public class Application
 
     private void Show()
     {
-        foreach (var project in _projects)
+        var projects = _projectsService.GetAll();
+        
+        foreach (var project in projects)
         {
             _console.WriteLine(project.Name);
             
@@ -101,16 +105,15 @@ public class Application
 
     private void AddProject(string name)
     {
-        _projects.Add(new Project
-        {
-            Name = name,
-            Tasks = new List<Task>()
-        });
+        var project = new Project(name, _clock);
+        _projectsService.Add(project);
     }
 
     private void AddTask(string projectName, string description)
     {
-        var project = _projects.FirstOrDefault(p => p.Name == projectName);
+        var project = _projectsService
+            .GetAll()
+            .FirstOrDefault(p => p.Name == projectName);
 
         if (project is null)
         {
@@ -125,7 +128,7 @@ public class Application
             Done = false
         };
         
-        project.Tasks.Add(task);
+        project.AddTask(task);
     }
 
     private void Check(string idString)
@@ -142,7 +145,8 @@ public class Application
     {
         var id = int.Parse(idString);
         
-        var taskToUpdate = _projects
+        var taskToUpdate = _projectsService
+            .GetAll()
             .SelectMany(p => p.Tasks)
             .FirstOrDefault(t => t.Id == id);
 
@@ -170,7 +174,8 @@ public class Application
     {
         var id = int.Parse(taskId);
         
-        var taskToUpdate = _projects
+        var taskToUpdate = _projectsService
+            .GetAll()
             .SelectMany(p => p.Tasks)
             .FirstOrDefault(t => t.Id == id);
 
@@ -191,19 +196,24 @@ public class Application
 
     private void ShowTasksDueToday()
     {
-        var todayDate = _clock.CurrentDateUtc;
-        var projectsWithTasksDueToday = _projects.Where(project => project.Tasks.Any(task => task.DueOn == todayDate));
+        var projects = _projectsService.GetAll();
         
-        foreach (var project in projectsWithTasksDueToday)
+        foreach (var project in projects)
         {
-            _console.WriteLine(project.Name);
-            var tasksDueToday = project.Tasks.Where(task => task.DueOn == todayDate);
+            var tasksDueToday = project.GetTasksDueToday();
+
+            if (!tasksDueToday.Any())
+            {
+                continue;
+            }
             
+            _console.WriteLine(project.Name);
+                
             foreach (var task in tasksDueToday)
             {
                 _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
             }
-
+                
             _console.WriteLine();
         }
     }

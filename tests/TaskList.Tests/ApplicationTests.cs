@@ -1,3 +1,4 @@
+using TaskList.Services;
 using TaskList.Tests.Fakes;
 using TaskList.Tests.Fakes.Console;
 
@@ -8,19 +9,20 @@ public class ApplicationTests
 {
     private const string Prompt = "> ";
 
-    private FakeConsole? _console;
-    private FakeClock? _dateProvider;
-    private CancellationTokenSource? _cancellationTokenSource;
-    private System.Threading.Tasks.Task? _applicationTask;
+    private FakeConsole _console = null!;
+    private FakeClock _clock = null!;
+    private CancellationTokenSource _cancellationTokenSource = null!;
+    private Task? _applicationTask;
 
     [SetUp]
     public void StartTheApplication()
     {
         _console = new FakeConsole();
-        _dateProvider = new FakeClock();
-        var application = new Application(_console, _dateProvider);
+        _clock = new FakeClock();
+        var projectsService = new ProjectsService();
+        var application = new Application(_console, _clock, projectsService);
         _cancellationTokenSource = new CancellationTokenSource();
-        _applicationTask = System.Threading.Tasks.Task.Run(() => application.Run(), _cancellationTokenSource.Token);
+        _applicationTask = Task.Run(() => application.Run(), _cancellationTokenSource.Token);
     }
 
     [TearDown]
@@ -28,7 +30,7 @@ public class ApplicationTests
     {
         if (_applicationTask is { IsCompleted: false })
         {
-            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource.Cancel();
         }
     }
 
@@ -115,7 +117,7 @@ public class ApplicationTests
 
     private void Read(string expectedOutput)
     {
-        var actualOutput = _console?.RetrieveOutput(expectedOutput.Length);
+        var actualOutput = _console.RetrieveOutput(expectedOutput.Length);
         Assert.That(actualOutput, Is.EqualTo(expectedOutput));
     }
 
@@ -129,6 +131,6 @@ public class ApplicationTests
 
     private void Write(string input)
     {
-        _console?.SendInput(input + Environment.NewLine);
+        _console.SendInput(input + Environment.NewLine);
     }
 }
