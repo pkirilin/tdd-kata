@@ -6,5 +6,7 @@ public interface IProjectsService
 {
     IReadOnlyList<Project> GetAll();
     
+    Project? GetByName(string name);
+    
     void Add(Project project);
 }

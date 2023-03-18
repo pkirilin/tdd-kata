@@ -11,6 +11,11 @@ public class ProjectsService : IProjectsService
         return _projects;
     }
 
+    public Project? GetByName(string name)
+    {
+        return _projects.FirstOrDefault(p => p.Name == name);
+    }
+
     public void Add(Project project)
     {
         _projects.Add(project);

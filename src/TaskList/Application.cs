@@ -111,9 +111,7 @@ public class Application
 
     private void AddTask(string projectName, string description)
     {
-        var project = _projectsService
-            .GetAll()
-            .FirstOrDefault(p => p.Name == projectName);
+        var project = _projectsService.GetByName(projectName);
 
         if (project is null)
         {
