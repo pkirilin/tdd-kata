@@ -6,7 +6,13 @@ namespace TaskList.Services;
 
 public class ProjectsService : IProjectsService
 {
+    private long _lastGeneratedTaskId;
     private readonly List<Project> _projects = new();
+
+    public TaskId GenerateNextTaskId()
+    {
+        return new TaskId((++_lastGeneratedTaskId).ToString());
+    }
 
     public IReadOnlyList<Project> GetAll()
     {

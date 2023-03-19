@@ -8,13 +8,15 @@ public class DeadlineCommand : ICommand
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
 
-    public DeadlineCommand(
-        string commandLineArgs,
-        IProjectsService projectsService,
-        IConsole console)
+    public DeadlineCommand(string? commandLineArgs, IProjectsService projectsService, IConsole console)
     {
         _projectsService = projectsService;
         _console = console;
+
+        if (string.IsNullOrWhiteSpace(commandLineArgs))
+        {
+            throw new ArgumentNullException(nameof(commandLineArgs));
+        }
 
         var args = commandLineArgs
             .Split(' ')

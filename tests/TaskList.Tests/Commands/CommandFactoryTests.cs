@@ -11,6 +11,7 @@ public class CommandFactoryTests
 {
     private readonly Mock<IProjectsService> _projectsServiceMock = new();
     private readonly Mock<IConsole> _consoleMock = new();
+    private readonly Mock<IClock> _clockMock = new();
 
     [Test]
     [TestCase("add project", typeof(AddCommand))]
@@ -19,7 +20,11 @@ public class CommandFactoryTests
     [TestCase("today", typeof(TodayCommand))]
     public void Creates_valid_command_type_based_on_command_line_input(string commandLine, Type createdCommandType)
     {
-        var factory = new CommandFactory(commandLine, _projectsServiceMock.Object, _consoleMock.Object);
+        var factory = new CommandFactory(
+            commandLine,
+            _projectsServiceMock.Object,
+            _consoleMock.Object,
+            _clockMock.Object);
         
         var command = factory.CreateCommand();
         

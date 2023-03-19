@@ -6,6 +6,7 @@ namespace TaskList.Services;
 
 public interface IProjectsService
 {
+    TaskId GenerateNextTaskId();
     IReadOnlyList<Project> GetAll();
     
     Project? FindByName(string name);

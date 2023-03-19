@@ -60,4 +60,21 @@ public class ProjectsServiceTests
         Assert.That(foundTask?.Id, Is.EqualTo(task.Id));
         Assert.That(foundTask?.Description, Is.EqualTo("Read a book"));
     }
+
+    [Test]
+    public void Automatic_task_id_generation_is_supported()
+    {
+        var firstTaskId = _projectsService.GenerateNextTaskId();
+        var secondTaskId = _projectsService.GenerateNextTaskId();
+        var thirdTaskId = _projectsService.GenerateNextTaskId();
+
+        var results = new[]
+        {
+            firstTaskId.Value,
+            secondTaskId.Value,
+            thirdTaskId.Value
+        };
+
+        Assert.That(results, Is.EqualTo(new[] { "1", "2", "3" }));
+    }
 }
