@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using Moq;
 using TaskList.Tests.Dsl;
 
-namespace TaskList.Tests.Commands;
+namespace TaskList.Tests.Commands.Deadline;
 
 public class DeadlineCommandTests
 {

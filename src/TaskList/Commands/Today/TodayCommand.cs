@@ -1,6 +1,6 @@
 using TaskList.Services;
 
-namespace TaskList.Commands;
+namespace TaskList.Commands.Today;
 
 public class TodayCommand : ICommand
 {

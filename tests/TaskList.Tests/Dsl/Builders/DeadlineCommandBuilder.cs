@@ -1,5 +1,6 @@
 using Moq;
 using TaskList.Commands;
+using TaskList.Commands.Deadline;
 using TaskList.Services;
 using TaskList.Tests.Fakes;
 using TaskList.ValueObjects;

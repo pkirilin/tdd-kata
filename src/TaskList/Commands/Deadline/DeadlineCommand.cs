@@ -1,7 +1,7 @@
 using TaskList.Services;
 using TaskList.ValueObjects;
 
-namespace TaskList.Commands;
+namespace TaskList.Commands.Deadline;
 
 public class DeadlineCommand : ICommand
 {
