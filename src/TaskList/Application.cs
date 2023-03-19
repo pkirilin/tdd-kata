@@ -1,6 +1,7 @@
 using TaskList.Commands;
 using TaskList.Entities;
 using TaskList.Services;
+using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
 namespace TaskList;
@@ -119,7 +120,8 @@ public class Application
             return;
         }
 
-        var task = new Task(NextId(), description);
+        var taskId = new TaskId(NextId().ToString());
+        var task = new Task(taskId, description);
         project.AddTask(task);
     }
 
@@ -135,7 +137,7 @@ public class Application
 
     private void SetDone(string idString, bool done)
     {
-        var id = long.Parse(idString);
+        var id = new TaskId(idString);
         var taskToUpdate = _projectsService.FindTaskById(id);
 
         if (taskToUpdate is null)

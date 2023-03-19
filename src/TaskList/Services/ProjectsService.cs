@@ -1,4 +1,5 @@
 using TaskList.Entities;
+using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
 namespace TaskList.Services;
@@ -17,7 +18,7 @@ public class ProjectsService : IProjectsService
         return _projects.FirstOrDefault(p => p.Name == name);
     }
 
-    public Task? FindTaskById(long id)
+    public Task? FindTaskById(TaskId id)
     {
         return _projects
             .SelectMany(p => p.Tasks)

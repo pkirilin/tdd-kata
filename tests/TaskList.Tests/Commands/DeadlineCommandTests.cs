@@ -11,7 +11,7 @@ public class DeadlineCommandTests
     {
         var task = Create
             .Task()
-            .WithId(123)
+            .WithId("123")
             .Please();
 
         var command = Create
@@ -30,7 +30,7 @@ public class DeadlineCommandTests
     {
         var commandBuilder = Create
             .DeadlineCommand()
-            .WithNotExistingTask(123)
+            .WithNotExistingTask("123")
             .WithDeadlineOnToday();
         var consoleMock = commandBuilder.ConsoleMock;
         var command = commandBuilder.Please();
@@ -42,18 +42,6 @@ public class DeadlineCommandTests
             Times.Once);
     }
 
-    [Test]
-    public void Cannot_be_created_with_invalid_task_id()
-    {
-        Assert.Throws<FormatException>(() =>
-        {
-            Create
-                .DeadlineCommand()
-                .WithTaskId("adasdasd")
-                .Please();
-        });
-    }
-    
     [Test]
     public void Cannot_be_created_with_invalid_deadline_date()
     {

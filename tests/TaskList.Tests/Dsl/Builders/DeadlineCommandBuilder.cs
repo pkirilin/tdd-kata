@@ -2,6 +2,7 @@ using Moq;
 using TaskList.Commands;
 using TaskList.Services;
 using TaskList.Tests.Fakes;
+using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
 namespace TaskList.Tests.Dsl.Builders;
@@ -12,7 +13,7 @@ public class DeadlineCommandBuilder
     
     private readonly Mock<IProjectsService> _projectsServiceMock = new();
     private readonly Mock<IConsole> _consoleMock = new();
-    private string _taskIdArg = "1";
+    private TaskId _taskId = new("1");
     private string _deadlineDateArg = "2023-03-01";
 
     public Mock<IConsole> ConsoleMock => _consoleMock;
@@ -20,7 +21,7 @@ public class DeadlineCommandBuilder
     public DeadlineCommand Please()
     {
         return new DeadlineCommand(
-            $"{_taskIdArg} {_deadlineDateArg}",
+            $"{_taskId} {_deadlineDateArg}",
             _projectsServiceMock.Object,
             _consoleMock.Object);
     }
@@ -30,22 +31,22 @@ public class DeadlineCommandBuilder
         _projectsServiceMock
             .Setup(x => x.FindTaskById(task.Id))
             .Returns(task);
-        _taskIdArg = task.Id.ToString();
+        _taskId = task.Id;
         return this;
     }
     
-    public DeadlineCommandBuilder WithTaskId(string taskIdArg)
+    public DeadlineCommandBuilder WithTaskId(string taskIdInput)
     {
-        _taskIdArg = taskIdArg;
+        _taskId = new TaskId(taskIdInput);
         return this;
     }
     
-    public DeadlineCommandBuilder WithNotExistingTask(long taskId)
+    public DeadlineCommandBuilder WithNotExistingTask(string taskIdInput)
     {
+        _taskId = new TaskId(taskIdInput);
         _projectsServiceMock
-            .Setup(x => x.FindTaskById(taskId))
+            .Setup(x => x.FindTaskById(_taskId))
             .Returns(null as Task);
-        _taskIdArg = taskId.ToString();
         return this;
     }
     

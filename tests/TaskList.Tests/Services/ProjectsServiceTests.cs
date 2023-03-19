@@ -1,13 +1,12 @@
 using TaskList.Entities;
 using TaskList.Services;
+using TaskList.Tests.Dsl;
 using TaskList.Tests.Fakes;
-using Task = TaskList.Entities.Task;
 
 namespace TaskList.Tests.Services;
 
 public class ProjectsServiceTests
 {
-    private readonly IClock _clock = new FakeClock();
     private readonly IProjectsService _projectsService = new ProjectsService();
 
     [Test]
@@ -23,8 +22,14 @@ public class ProjectsServiceTests
     [Test]
     public void Project_can_be_found_by_name()
     {
-        var firstProject = new Project("first", _clock);
-        var secondProject = new Project("second", _clock);
+        var firstProject = Create
+            .Project()
+            .WithName("first")
+            .Please();
+        var secondProject = Create
+            .Project()
+            .WithName("second")
+            .Please();
         _projectsService.Add(firstProject);
         _projectsService.Add(secondProject);
 
@@ -37,15 +42,22 @@ public class ProjectsServiceTests
     [Test]
     public void Task_can_be_found_by_id()
     {
-        var project = new Project("my project", _clock);
-        var task = new Task(1, "Read a book");
-        project.AddTask(task);
+        var task = Create
+            .Task()
+            .WithId("1")
+            .WithDescription("Read a book")
+            .Please();
+        var project = Create
+            .Project()
+            .WithName("my project")
+            .WithTasks(task)
+            .Please();
         _projectsService.Add(project);
 
-        var foundTask = _projectsService.FindTaskById(1);
+        var foundTask = _projectsService.FindTaskById(task.Id);
         
         Assert.That(foundTask, Is.Not.Null);
-        Assert.That(foundTask?.Id, Is.EqualTo(1));
+        Assert.That(foundTask?.Id, Is.EqualTo(task.Id));
         Assert.That(foundTask?.Description, Is.EqualTo("Read a book"));
     }
 }

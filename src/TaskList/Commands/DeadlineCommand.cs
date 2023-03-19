@@ -1,4 +1,5 @@
 using TaskList.Services;
+using TaskList.ValueObjects;
 
 namespace TaskList.Commands;
 
@@ -23,7 +24,7 @@ public class DeadlineCommand : ICommand
         DeadlineDate = ParseDeadlineDate(args);
     }
     
-    public long TaskId { get; }
+    public TaskId TaskId { get; }
     public DateOnly DeadlineDate { get; }
 
     public void Execute()
@@ -39,9 +40,9 @@ public class DeadlineCommand : ICommand
         taskToUpdate.SetDeadline(DeadlineDate);
     }
 
-    private static long ParseTaskId(IReadOnlyList<string> commandLineArgs)
+    private static TaskId ParseTaskId(IReadOnlyList<string> commandLineArgs)
     {
-        return long.Parse(commandLineArgs[0]);
+        return new TaskId(commandLineArgs[0]);
     }
 
     private static DateOnly ParseDeadlineDate(IReadOnlyList<string> commandLineArgs)
