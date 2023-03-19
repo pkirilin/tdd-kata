@@ -1,39 +1,30 @@
 using TaskList.Services;
+using TaskList.ValueObjects;
 
 namespace TaskList.Commands.Add;
 
 public class AddCommandFactory : ICommandFactory
 {
+    private readonly CommandText _commandText;
     private readonly IClock _clock;
     private readonly IProjectsService _projectsService;
-    private readonly string _entityName;
-    private readonly string? _args;
-    
-    public AddCommandFactory(string? commandLineArgs, IClock clock, IProjectsService projectsService)
+
+    public AddCommandFactory(CommandText commandText, IClock clock, IProjectsService projectsService)
     {
+        _commandText = commandText;
         _clock = clock;
         _projectsService = projectsService;
-
-        if (string.IsNullOrWhiteSpace(commandLineArgs))
-        {
-            throw new ArgumentNullException(nameof(commandLineArgs));
-        }
-        
-        var tokens = commandLineArgs.Split(new[] { ' ' }, 2);
-        _entityName = tokens[0];
-
-        if (tokens.Length > 1)
-        {
-            _args = tokens[1];
-        }
     }
     
     public ICommand CreateCommand()
     {
-        return _entityName switch
+        return _commandText.Type switch
         {
-            "project" => new AddProjectCommand(_args, _clock, _projectsService),
-            "task" => new AddTaskCommand(_args, _projectsService),
+            "project" => new AddProjectCommand(_commandText.Arguments[0], _clock, _projectsService),
+            "task" => new AddTaskCommand(
+                _commandText.Arguments[0],
+                _commandText.Arguments.Length > 1 ? _commandText.Arguments[1] : string.Empty,
+                _projectsService),
             _ => throw new NotImplementedException()
         };
     }

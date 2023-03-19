@@ -60,7 +60,10 @@ public class Application
                 Help();
                 break;
             case "deadline":
-                var deadlineCommand = new DeadlineCommand(commandRest[1], _projectsService, _console);
+                var tokens = commandRest[1].Split(new[] { ' ' }, 2);
+                var taskId = new TaskId(tokens[0]);
+                var deadlineDate = DateOnly.Parse(tokens[1]);
+                var deadlineCommand = new DeadlineCommand(taskId, deadlineDate, _projectsService, _console);
                 deadlineCommand.Execute();
                 break;
             case "today":

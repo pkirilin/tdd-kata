@@ -7,18 +7,11 @@ public class AddTaskCommand : ICommand
 {
     private readonly IProjectsService _projectsService;
 
-    public AddTaskCommand(string? commandLineArgs, IProjectsService projectsService)
+    public AddTaskCommand(string projectName, string description, IProjectsService projectsService)
     {
         _projectsService = projectsService;
-        
-        if (string.IsNullOrWhiteSpace(commandLineArgs))
-        {
-            throw new ArgumentNullException(nameof(commandLineArgs));
-        }
-
-        var tokens = commandLineArgs.Split(new[] { ' ' }, 2);
-        ProjectName = tokens[0];
-        Description = tokens.Length > 1 ? tokens[1] : string.Empty;
+        ProjectName = projectName;
+        Description = description;
     }
 
     public string ProjectName { get; }

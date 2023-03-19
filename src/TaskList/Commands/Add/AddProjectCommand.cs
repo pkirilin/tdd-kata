@@ -8,11 +8,11 @@ public class AddProjectCommand : ICommand
     private readonly IClock _clock;
     private readonly IProjectsService _projectsService;
 
-    public AddProjectCommand(string? commandLineArgs, IClock clock, IProjectsService projectsService)
+    public AddProjectCommand(string projectName, IClock clock, IProjectsService projectsService)
     {
         _clock = clock;
         _projectsService = projectsService;
-        ProjectName = commandLineArgs ?? throw new ArgumentNullException(nameof(commandLineArgs));
+        ProjectName = projectName;
     }
     
     public string ProjectName { get; }

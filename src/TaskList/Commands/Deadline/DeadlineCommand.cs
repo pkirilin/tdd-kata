@@ -8,22 +8,12 @@ public class DeadlineCommand : ICommand
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
 
-    public DeadlineCommand(string? commandLineArgs, IProjectsService projectsService, IConsole console)
+    public DeadlineCommand(TaskId taskId, DateOnly deadlineDate, IProjectsService projectsService, IConsole console)
     {
         _projectsService = projectsService;
         _console = console;
-
-        if (string.IsNullOrWhiteSpace(commandLineArgs))
-        {
-            throw new ArgumentNullException(nameof(commandLineArgs));
-        }
-
-        var args = commandLineArgs
-            .Split(' ')
-            .ToArray();
-        
-        TaskId = ParseTaskId(args);
-        DeadlineDate = ParseDeadlineDate(args);
+        TaskId = taskId;
+        DeadlineDate = deadlineDate;
     }
     
     public TaskId TaskId { get; }
@@ -40,15 +30,5 @@ public class DeadlineCommand : ICommand
         }
 
         taskToUpdate.SetDeadline(DeadlineDate);
-    }
-
-    private static TaskId ParseTaskId(IReadOnlyList<string> commandLineArgs)
-    {
-        return new TaskId(commandLineArgs[0]);
-    }
-
-    private static DateOnly ParseDeadlineDate(IReadOnlyList<string> commandLineArgs)
-    {
-        return DateOnly.Parse(commandLineArgs[1]);
     }
 }

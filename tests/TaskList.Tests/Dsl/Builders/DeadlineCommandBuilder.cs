@@ -1,5 +1,4 @@
 using Moq;
-using TaskList.Commands;
 using TaskList.Commands.Deadline;
 using TaskList.Services;
 using TaskList.Tests.Fakes;
@@ -22,7 +21,8 @@ public class DeadlineCommandBuilder
     public DeadlineCommand Please()
     {
         return new DeadlineCommand(
-            $"{_taskId} {_deadlineDateArg}",
+            _taskId,
+            DateOnly.Parse(_deadlineDateArg), 
             _projectsServiceMock.Object,
             _consoleMock.Object);
     }
