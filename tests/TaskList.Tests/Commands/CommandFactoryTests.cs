@@ -1,7 +1,6 @@
 using Moq;
 using TaskList.Commands;
 using TaskList.Commands.Add;
-using TaskList.Commands.Deadline;
 using TaskList.Commands.Today;
 using TaskList.Services;
 using TaskList.ValueObjects;
@@ -17,7 +16,6 @@ public class CommandFactoryTests
     [Test]
     [TestCase("add project main", 2, typeof(AddCommand))]
     [TestCase("add task 1 test task", 3, typeof(AddCommand))]
-    [TestCase("deadline 1 2023-03-20", 2, typeof(DeadlineCommand))]
     [TestCase("today", 0, typeof(TodayCommand))]
     public void Creates_valid_command_type_based_on_command_line_input(string inputText, int argumentsCount, Type createdCommandType)
     {

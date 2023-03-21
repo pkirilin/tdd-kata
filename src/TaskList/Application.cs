@@ -60,11 +60,9 @@ public class Application
                 Help();
                 break;
             case "deadline":
-                var tokens = commandRest[1].Split(new[] { ' ' }, 2);
-                var taskId = new TaskId(tokens[0]);
-                var deadlineDate = DateOnly.Parse(tokens[1]);
-                var deadlineCommand = new DeadlineCommand(taskId, deadlineDate, _projectsService, _console);
-                deadlineCommand.Execute();
+                var request = new DeadlineRequest(commandRest[1]);
+                var handler = new DeadlineRequestHandler(_projectsService, _console);
+                handler.Handle(request);
                 break;
             case "today":
                 var todayCommand = new TodayCommand(_projectsService, _console);

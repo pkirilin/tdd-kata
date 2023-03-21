@@ -1,5 +1,4 @@
 using TaskList.Commands.Add;
-using TaskList.Commands.Deadline;
 using TaskList.Commands.Today;
 using TaskList.Services;
 using TaskList.ValueObjects;
@@ -30,11 +29,6 @@ public class CommandFactory : ICommandFactory
                     new CommandText(_commandText.ArgumentsText, 1),
                     _clock,
                     _projectsService)),
-            "deadline" => new DeadlineCommand(
-                new TaskId(_commandText.Arguments[0]),
-                DateOnly.Parse(_commandText.Arguments[1]),
-                _projectsService,
-                _console),
             "today" => new TodayCommand(_projectsService, _console),
             _ => throw new NotImplementedException()
         };

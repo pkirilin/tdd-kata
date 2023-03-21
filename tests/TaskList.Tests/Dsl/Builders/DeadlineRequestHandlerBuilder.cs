@@ -7,7 +7,7 @@ using Task = TaskList.Entities.Task;
 
 namespace TaskList.Tests.Dsl.Builders;
 
-public class DeadlineCommandBuilder
+public class DeadlineRequestHandlerBuilder
 {
     private static readonly IClock Clock = new FakeClock();
     
@@ -18,16 +18,12 @@ public class DeadlineCommandBuilder
 
     public Mock<IConsole> ConsoleMock => _consoleMock;
 
-    public DeadlineCommand Please()
+    public DeadlineRequestHandler Please()
     {
-        return new DeadlineCommand(
-            _taskId,
-            DateOnly.Parse(_deadlineDateArg), 
-            _projectsServiceMock.Object,
-            _consoleMock.Object);
+        return new DeadlineRequestHandler(_projectsServiceMock.Object, _consoleMock.Object);
     }
     
-    public DeadlineCommandBuilder WithTask(Task task)
+    public DeadlineRequestHandlerBuilder WithTask(Task task)
     {
         _projectsServiceMock
             .Setup(x => x.FindTaskById(task.Id))
@@ -36,13 +32,13 @@ public class DeadlineCommandBuilder
         return this;
     }
     
-    public DeadlineCommandBuilder WithTaskId(string taskIdInput)
+    public DeadlineRequestHandlerBuilder WithTaskId(string taskIdInput)
     {
         _taskId = new TaskId(taskIdInput);
         return this;
     }
     
-    public DeadlineCommandBuilder WithNotExistingTask(string taskIdInput)
+    public DeadlineRequestHandlerBuilder WithNotExistingTask(string taskIdInput)
     {
         _taskId = new TaskId(taskIdInput);
         _projectsServiceMock
@@ -51,13 +47,13 @@ public class DeadlineCommandBuilder
         return this;
     }
     
-    public DeadlineCommandBuilder WithDeadline(string deadlineDateArg)
+    public DeadlineRequestHandlerBuilder WithDeadline(string deadlineDateArg)
     {
         _deadlineDateArg = deadlineDateArg;
         return this;
     }
     
-    public DeadlineCommandBuilder WithDeadlineOnToday()
+    public DeadlineRequestHandlerBuilder WithDeadlineOnToday()
     {
         _deadlineDateArg = Clock.CurrentDateUtc.ToString("O");
         return this;
