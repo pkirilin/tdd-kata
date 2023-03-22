@@ -128,24 +128,29 @@ public class Application
         project.AddTask(task);
     }
 
-    private void Check(string idString)
+    private void Check(string? commandLineArgs)
     {
-        SetDone(idString, true);
+        SetDone(commandLineArgs, true);
     }
 
-    private void Uncheck(string idString)
+    private void Uncheck(string? commandLineArgs)
     {
-        SetDone(idString, false);
+        SetDone(commandLineArgs, false);
     }
 
-    private void SetDone(string idString, bool done)
+    private void SetDone(string? commandLineArgs, bool done)
     {
-        var id = new TaskId(idString);
-        var taskToUpdate = _projectsService.FindTaskById(id);
+        if (string.IsNullOrWhiteSpace(commandLineArgs))
+        {
+            return;
+        }
+        
+        var taskId = new TaskId(commandLineArgs);
+        var taskToUpdate = _projectsService.FindTaskById(taskId);
 
         if (taskToUpdate is null)
         {
-            _console.WriteLine("Could not find a task with an ID of {0}.", id);
+            _console.WriteLine("Could not find a task with an ID of {0}.", taskId);
             return;
         }
 
