@@ -38,29 +38,29 @@ public class Application
         }
     }
 
-    private void Execute(string commandLine)
+    private void Execute(string commandText)
     {
-        var commandRest = commandLine.Split(" ".ToCharArray(), 2);
-        var command = commandRest[0];
-        switch (command)
+        var command = new Command(commandText);
+        
+        switch (command.Type)
         {
             case "show":
                 Show();
                 break;
             case "add":
-                Add(commandRest[1]);
+                Add(command.ArgumentsText);
                 break;
             case "check":
-                Check(commandRest[1]);
+                Check(command.ArgumentsText);
                 break;
             case "uncheck":
-                Uncheck(commandRest[1]);
+                Uncheck(command.ArgumentsText);
                 break;
             case "help":
                 Help();
                 break;
             case "deadline":
-                var request = new DeadlineRequest(commandRest[1]);
+                var request = new DeadlineRequest(command.ArgumentsText);
                 var handler = new DeadlineRequestHandler(_projectsService, _console);
                 handler.Handle(request);
                 break;
@@ -69,7 +69,7 @@ public class Application
                 todayCommand.Execute();
                 break;
             default:
-                Error(command);
+                Error(command.Type);
                 break;
         }
     }
