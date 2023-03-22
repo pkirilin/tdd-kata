@@ -1,3 +1,4 @@
+using TaskList.Commands.Add;
 using TaskList.Commands.Deadline;
 using TaskList.Commands.Today;
 using TaskList.Entities;
@@ -91,39 +92,39 @@ public class Application
         }
     }
 
-    private void Add(string commandLine)
+    private void Add(string? subcommandText)
     {
-        var subcommandRest = commandLine.Split(" ".ToCharArray(), 2);
-        var subcommand = subcommandRest[0];
-        if (subcommand == "project")
+        var subcommand = new Command(subcommandText);
+
+        switch (subcommand.Type)
         {
-            AddProject(subcommandRest[1]);
-        }
-        else if (subcommand == "task")
-        {
-            var projectTask = subcommandRest[1].Split(" ".ToCharArray(), 2);
-            AddTask(projectTask[0], projectTask[1]);
+            case "project":
+                AddProject(new AddProjectRequest(subcommand.ArgumentsText));
+                break;
+            case "task":
+                AddTask(new AddTaskRequest(subcommand.ArgumentsText));
+                break;
         }
     }
 
-    private void AddProject(string name)
+    private void AddProject(AddProjectRequest request)
     {
-        var project = new Project(name, _clock);
+        var project = new Project(request.Name, _clock);
         _projectsService.Add(project);
     }
 
-    private void AddTask(string projectName, string description)
+    private void AddTask(AddTaskRequest request)
     {
-        var project = _projectsService.FindByName(projectName);
+        var project = _projectsService.FindByName(request.ProjectName);
 
         if (project is null)
         {
-            Console.WriteLine("Could not find a project with the name \"{0}\".", projectName);
+            Console.WriteLine("Could not find a project with the name \"{0}\".", request.ProjectName);
             return;
         }
 
         var taskId = new TaskId(NextId().ToString());
-        var task = new Task(taskId, description);
+        var task = new Task(taskId, request.Description);
         project.AddTask(task);
     }
 
