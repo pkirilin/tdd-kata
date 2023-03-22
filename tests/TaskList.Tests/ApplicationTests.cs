@@ -35,48 +35,48 @@ public class ApplicationTests
     }
 
     [Test, Timeout(1000)]
-    public void ItWorks()
+    public void User_can_add_view_and_check_tasks()
     {
         Execute("show");
 
         Execute("add project secrets");
-        Execute("add task secrets Eat more donuts.");
-        Execute("add task secrets Destroy all humans.");
+        Execute("add task secrets SEC-001 Eat more donuts.");
+        Execute("add task secrets SEC-002 Destroy all humans.");
 
         Execute("show");
         ReadLines(
             "secrets",
-            "    [ ] 1: Eat more donuts.",
-            "    [ ] 2: Destroy all humans.",
+            "    [ ] SEC-001: Eat more donuts.",
+            "    [ ] SEC-002: Destroy all humans.",
             ""
         );
 
         Execute("add project training");
-        Execute("add task training Four Elements of Simple Design");
-        Execute("add task training SOLID");
-        Execute("add task training Coupling and Cohesion");
-        Execute("add task training Primitive Obsession");
-        Execute("add task training Outside-In TDD");
-        Execute("add task training Interaction-Driven Design");
+        Execute("add task training TRA-001 Four Elements of Simple Design");
+        Execute("add task training TRA-002 SOLID");
+        Execute("add task training TRA-003 Coupling and Cohesion");
+        Execute("add task training TRA-004 Primitive Obsession");
+        Execute("add task training TRA-005 Outside-In TDD");
+        Execute("add task training TRA-006 Interaction-Driven Design");
 
-        Execute("check 1");
-        Execute("check 3");
-        Execute("check 5");
-        Execute("check 6");
+        Execute("check SEC-001");
+        Execute("check TRA-001");
+        Execute("check TRA-003");
+        Execute("check TRA-004");
 
         Execute("show");
         ReadLines(
             "secrets",
-            "    [x] 1: Eat more donuts.",
-            "    [ ] 2: Destroy all humans.",
+            "    [x] SEC-001: Eat more donuts.",
+            "    [ ] SEC-002: Destroy all humans.",
             "",
             "training",
-            "    [x] 3: Four Elements of Simple Design",
-            "    [ ] 4: SOLID",
-            "    [x] 5: Coupling and Cohesion",
-            "    [x] 6: Primitive Obsession",
-            "    [ ] 7: Outside-In TDD",
-            "    [ ] 8: Interaction-Driven Design",
+            "    [x] TRA-001: Four Elements of Simple Design",
+            "    [ ] TRA-002: SOLID",
+            "    [x] TRA-003: Coupling and Cohesion",
+            "    [x] TRA-004: Primitive Obsession",
+            "    [ ] TRA-005: Outside-In TDD",
+            "    [ ] TRA-006: Interaction-Driven Design",
             ""
         );
 
@@ -87,22 +87,22 @@ public class ApplicationTests
     public void User_can_give_a_task_an_optional_deadline()
     {
         Execute("add project main");
-        Execute("add task main Read a book");
-        Execute("add task main Buy food");
+        Execute("add task main 44bMf Read a book");
+        Execute("add task main h4Nq5 Buy food");
         
         Execute("show");
         ReadLines(
             "main",
-            "    [ ] 1: Read a book",
-            "    [ ] 2: Buy food",
+            "    [ ] 44bMf: Read a book",
+            "    [ ] h4Nq5: Buy food",
             ""
         );
         
-        Execute("deadline 1 2023-03-20");
+        Execute("deadline 44bMf 2023-03-20");
         Execute("today");
         ReadLines(
             "main",
-            "    [ ] 1: Read a book",
+            "    [ ] 44bMf: Read a book",
             ""
         );
 

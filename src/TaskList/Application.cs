@@ -15,7 +15,6 @@ public class Application
     private readonly IConsole _console;
     private readonly IClock _clock;
     private readonly IProjectsService _projectsService;
-    private long _lastId;
 
     public Application(IConsole console, IClock clock, IProjectsService projectsService)
     {
@@ -122,9 +121,8 @@ public class Application
             Console.WriteLine("Could not find a project with the name \"{0}\".", request.ProjectName);
             return;
         }
-
-        var taskId = new TaskId(NextId().ToString());
-        var task = new Task(taskId, request.Description);
+        
+        var task = new Task(request.Id, request.Description);
         project.AddTask(task);
     }
 
@@ -171,10 +169,5 @@ public class Application
     private void Error(string command)
     {
         _console.WriteLine("I don't know what the command \"{0}\" is.", command);
-    }
-
-    private long NextId()
-    {
-        return ++_lastId;
     }
 }

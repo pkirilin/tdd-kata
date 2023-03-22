@@ -21,4 +21,12 @@ public class DeadlineRequestTests
             var _ = new DeadlineRequest("1 sfdfdsfs");
         });
     }
+    
+    [Test]
+    public void Accepts_string_ids()
+    {
+        var request = new DeadlineRequest("TASK-01 2023-03-20");
+        
+        Assert.That(request.TaskId.ToString(), Is.EqualTo("TASK-01"));
+    }
 }
