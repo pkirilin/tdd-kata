@@ -121,8 +121,9 @@ public class Application
             Console.WriteLine("Could not find a project with the name \"{0}\".", request.ProjectName);
             return;
         }
-        
-        var task = new Task(request.Id, request.Description);
+
+        var taskId = new TaskId(request.Id);
+        var task = new Task(taskId, request.Description);
         project.AddTask(task);
     }
 

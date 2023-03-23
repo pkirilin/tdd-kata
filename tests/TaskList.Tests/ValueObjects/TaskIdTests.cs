@@ -25,4 +25,23 @@ public class TaskIdTests
         
         Assert.That(areEqual, Is.True);
     }
+
+    [Test]
+    [TestCase("F 32")]
+    [TestCase("#00032")]
+    [TestCase("@fsdfsdf")]
+    [TestCase("/fsdf")]
+    [TestCase("fsdf+")]
+    [TestCase("fsdf-")]
+    [TestCase("fsdf_sdasf")]
+    [TestCase("fsdf&sdasf")]
+    [TestCase("$100")]
+    [TestCase("100%")]
+    public void Disallows_spaces_and_special_characters(string input)
+    {
+        Assert.Throws<ArgumentException>(() =>
+        {
+            var _ = new TaskId(input);
+        });
+    }
 }

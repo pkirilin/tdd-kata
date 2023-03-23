@@ -1,4 +1,5 @@
 using TaskList.Services;
+using TaskList.ValueObjects;
 
 namespace TaskList.Commands.Deadline;
 
@@ -15,7 +16,8 @@ public class DeadlineRequestHandler
     
     public void Handle(DeadlineRequest request)
     {
-        var taskToUpdate = _projectsService.FindTaskById(request.TaskId);
+        var taskId = new TaskId(request.TaskId);
+        var taskToUpdate = _projectsService.FindTaskById(taskId);
 
         if (taskToUpdate is null)
         {

@@ -9,7 +9,7 @@ public class DeadlineRequestTests
     {
         var request = new DeadlineRequest("1 2023-03-20");
         
-        Assert.That(request.TaskId.ToString(), Is.EqualTo("1"));
+        Assert.That(request.TaskId, Is.EqualTo("1"));
         Assert.That(request.Date.ToString("o"), Is.EqualTo("2023-03-20"));
     }
     
@@ -25,8 +25,8 @@ public class DeadlineRequestTests
     [Test]
     public void Accepts_string_ids()
     {
-        var request = new DeadlineRequest("TASK-01 2023-03-20");
+        var request = new DeadlineRequest("TASK01 2023-03-20");
         
-        Assert.That(request.TaskId.ToString(), Is.EqualTo("TASK-01"));
+        Assert.That(request.TaskId, Is.EqualTo("TASK01"));
     }
 }

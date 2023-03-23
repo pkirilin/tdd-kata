@@ -40,43 +40,43 @@ public class ApplicationTests
         Execute("show");
 
         Execute("add project secrets");
-        Execute("add task secrets SEC-001 Eat more donuts.");
-        Execute("add task secrets SEC-002 Destroy all humans.");
+        Execute("add task secrets SEC001 Eat more donuts.");
+        Execute("add task secrets SEC002 Destroy all humans.");
 
         Execute("show");
         ReadLines(
             "secrets",
-            "    [ ] SEC-001: Eat more donuts.",
-            "    [ ] SEC-002: Destroy all humans.",
+            "    [ ] SEC001: Eat more donuts.",
+            "    [ ] SEC002: Destroy all humans.",
             ""
         );
 
         Execute("add project training");
-        Execute("add task training TRA-001 Four Elements of Simple Design");
-        Execute("add task training TRA-002 SOLID");
-        Execute("add task training TRA-003 Coupling and Cohesion");
-        Execute("add task training TRA-004 Primitive Obsession");
-        Execute("add task training TRA-005 Outside-In TDD");
-        Execute("add task training TRA-006 Interaction-Driven Design");
+        Execute("add task training TRA001 Four Elements of Simple Design");
+        Execute("add task training TRA002 SOLID");
+        Execute("add task training TRA003 Coupling and Cohesion");
+        Execute("add task training TRA004 Primitive Obsession");
+        Execute("add task training TRA005 Outside-In TDD");
+        Execute("add task training TRA006 Interaction-Driven Design");
 
-        Execute("check SEC-001");
-        Execute("check TRA-001");
-        Execute("check TRA-003");
-        Execute("check TRA-004");
+        Execute("check SEC001");
+        Execute("check TRA001");
+        Execute("check TRA003");
+        Execute("check TRA004");
 
         Execute("show");
         ReadLines(
             "secrets",
-            "    [x] SEC-001: Eat more donuts.",
-            "    [ ] SEC-002: Destroy all humans.",
+            "    [x] SEC001: Eat more donuts.",
+            "    [ ] SEC002: Destroy all humans.",
             "",
             "training",
-            "    [x] TRA-001: Four Elements of Simple Design",
-            "    [ ] TRA-002: SOLID",
-            "    [x] TRA-003: Coupling and Cohesion",
-            "    [x] TRA-004: Primitive Obsession",
-            "    [ ] TRA-005: Outside-In TDD",
-            "    [ ] TRA-006: Interaction-Driven Design",
+            "    [x] TRA001: Four Elements of Simple Design",
+            "    [ ] TRA002: SOLID",
+            "    [x] TRA003: Coupling and Cohesion",
+            "    [x] TRA004: Primitive Obsession",
+            "    [ ] TRA005: Outside-In TDD",
+            "    [ ] TRA006: Interaction-Driven Design",
             ""
         );
 

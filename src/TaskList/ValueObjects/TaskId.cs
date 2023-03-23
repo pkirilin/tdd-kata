@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace TaskList.ValueObjects;
 
 public class TaskId
@@ -6,6 +8,11 @@ public class TaskId
     
     public TaskId(string input)
     {
+        if (!ValidateInput(input))
+        {
+            throw new ArgumentException("Task ID value is invalid", nameof(input));
+        }
+        
         Value = input;
     }
 
@@ -28,8 +35,7 @@ public class TaskId
     {
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((TaskId)obj);
+        return obj.GetType() == GetType() && Equals((TaskId)obj);
     }
 
     public override int GetHashCode()
@@ -40,5 +46,14 @@ public class TaskId
     private bool Equals(TaskId other)
     {
         return Value == other.Value;
+    }
+
+    private static bool ValidateInput(string input)
+    {
+        // var regexItem = new Regex("^[a-zA-Z0-9]*$");
+
+        // return regexItem.IsMatch(input);
+
+        return Regex.IsMatch(input, "^[a-zA-Z0-9]*$");
     }
 }
