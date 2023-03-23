@@ -7,7 +7,7 @@ public class SetDeadlineRequestTests
     [Test]
     public void Can_be_created_from_valid_arguments()
     {
-        var request = new SetDeadlineRequest("1 2023-03-20");
+        var request = new SetDeadlineCommand("1 2023-03-20");
         
         Assert.That(request.TaskId, Is.EqualTo("1"));
         Assert.That(request.Date.ToString("o"), Is.EqualTo("2023-03-20"));
@@ -18,14 +18,14 @@ public class SetDeadlineRequestTests
     {
         Assert.Throws<FormatException>(() =>
         {
-            var _ = new SetDeadlineRequest("1 sfdfdsfs");
+            var _ = new SetDeadlineCommand("1 sfdfdsfs");
         });
     }
     
     [Test]
     public void Accepts_string_ids()
     {
-        var request = new SetDeadlineRequest("TASK01 2023-03-20");
+        var request = new SetDeadlineCommand("TASK01 2023-03-20");
         
         Assert.That(request.TaskId, Is.EqualTo("TASK01"));
     }

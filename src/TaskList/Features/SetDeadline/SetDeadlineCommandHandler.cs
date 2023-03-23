@@ -3,28 +3,28 @@ using TaskList.ValueObjects;
 
 namespace TaskList.Features.SetDeadline;
 
-public class SetDeadlineRequestHandler
+public class SetDeadlineCommandHandler
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
 
-    public SetDeadlineRequestHandler(IProjectsService projectsService, IConsole console)
+    public SetDeadlineCommandHandler(IProjectsService projectsService, IConsole console)
     {
         _projectsService = projectsService;
         _console = console;
     }
     
-    public void Handle(SetDeadlineRequest request)
+    public void Handle(SetDeadlineCommand command)
     {
-        var taskId = new TaskId(request.TaskId);
+        var taskId = new TaskId(command.TaskId);
         var taskToUpdate = _projectsService.FindTaskById(taskId);
 
         if (taskToUpdate is null)
         {
-            _console.WriteLine($"Could not find a task with an ID of {request.TaskId}");
+            _console.WriteLine($"Could not find a task with an ID of {command.TaskId}");
             return;
         }
 
-        taskToUpdate.SetDeadline(request.Date);
+        taskToUpdate.SetDeadline(command.Date);
     }
 }

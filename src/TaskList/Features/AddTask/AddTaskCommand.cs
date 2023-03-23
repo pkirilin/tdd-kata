@@ -1,12 +1,12 @@
 namespace TaskList.Features.AddTask;
 
-public class AddTaskRequest
+public class AddTaskCommand
 {
     public string ProjectName { get; }
     public string Id { get; }
     public string Description { get; }
     
-    public AddTaskRequest(string? commandLineArgs)
+    public AddTaskCommand(string? commandLineArgs)
     {
         if (string.IsNullOrWhiteSpace(commandLineArgs))
         {

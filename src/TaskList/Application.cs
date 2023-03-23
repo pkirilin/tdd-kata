@@ -61,8 +61,8 @@ public class Application
                 Help();
                 break;
             case "deadline":
-                var request = new SetDeadlineRequest(command.ArgumentsText);
-                var handler = new SetDeadlineRequestHandler(_projectsService, _console);
+                var request = new SetDeadlineCommand(command.ArgumentsText);
+                var handler = new SetDeadlineCommandHandler(_projectsService, _console);
                 handler.Handle(request);
                 break;
             case "today":
@@ -99,32 +99,32 @@ public class Application
         switch (subcommand.Type)
         {
             case "project":
-                AddProject(new AddProjectRequest(subcommand.ArgumentsText));
+                AddProject(new AddProjectCommand(subcommand.ArgumentsText));
                 break;
             case "task":
-                AddTask(new AddTaskRequest(subcommand.ArgumentsText));
+                AddTask(new AddTaskCommand(subcommand.ArgumentsText));
                 break;
         }
     }
 
-    private void AddProject(AddProjectRequest request)
+    private void AddProject(AddProjectCommand command)
     {
-        var project = new Project(request.Name, _clock);
+        var project = new Project(command.Name, _clock);
         _projectsService.Add(project);
     }
 
-    private void AddTask(AddTaskRequest request)
+    private void AddTask(AddTaskCommand command)
     {
-        var project = _projectsService.FindByName(request.ProjectName);
+        var project = _projectsService.FindByName(command.ProjectName);
 
         if (project is null)
         {
-            Console.WriteLine("Could not find a project with the name \"{0}\".", request.ProjectName);
+            Console.WriteLine("Could not find a project with the name \"{0}\".", command.ProjectName);
             return;
         }
 
-        var taskId = new TaskId(request.Id);
-        var task = new Task(taskId, request.Description);
+        var taskId = new TaskId(command.Id);
+        var task = new Task(taskId, command.Description);
         project.AddTask(task);
     }
 

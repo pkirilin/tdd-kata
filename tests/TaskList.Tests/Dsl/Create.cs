@@ -7,6 +7,6 @@ public static class Create
     public static TaskBuilder Task() => new();
     public static ProjectBuilder Project() => new();
     
-    public static SetDeadlineRequestHandlerBuilder SetDeadlineRequestHandler() => new();
+    public static SetDeadlineQueryHandlerBuilder SetDeadlineQueryHandler() => new();
     public static ShowTasksDueTodayQueryHandlerBuilder ShowTasksDueTodayQueryHandler() => new();
 }

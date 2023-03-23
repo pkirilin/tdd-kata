@@ -2,13 +2,13 @@ using TaskList.Features.AddProject;
 
 namespace TaskList.Tests.Features.AddProject;
 
-public class AddProjectRequestTests
+public class AddProjectCommandTests
 {
     [Test]
     public void Can_be_created_from_valid_arguments()
     {
-        var request = new AddProjectRequest("main");
+        var command = new AddProjectCommand("main");
         
-        Assert.That(request.Name, Is.EqualTo("main"));
+        Assert.That(command.Name, Is.EqualTo("main"));
     }
 }
