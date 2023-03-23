@@ -1,11 +1,9 @@
-using TaskList.Entities;
 using TaskList.Features.AddProject;
 using TaskList.Features.AddTask;
 using TaskList.Features.SetDeadline;
 using TaskList.Features.ShowTasksDueToday;
 using TaskList.Services;
 using TaskList.ValueObjects;
-using Task = TaskList.Entities.Task;
 
 namespace TaskList;
 
@@ -99,33 +97,14 @@ public class Application
         switch (subcommand.Type)
         {
             case "project":
-                AddProject(new AddProjectCommand(subcommand.ArgumentsText));
+                var addProjectHandler = new AddProjectCommandHandler(_clock, _projectsService);
+                addProjectHandler.Handle(new AddProjectCommand(subcommand.ArgumentsText));
                 break;
             case "task":
-                AddTask(new AddTaskCommand(subcommand.ArgumentsText));
+                var addTaskHandler = new AddTaskCommandHandler(_projectsService);
+                addTaskHandler.Handle(new AddTaskCommand(subcommand.ArgumentsText));
                 break;
         }
-    }
-
-    private void AddProject(AddProjectCommand command)
-    {
-        var project = new Project(command.Name, _clock);
-        _projectsService.Add(project);
-    }
-
-    private void AddTask(AddTaskCommand command)
-    {
-        var project = _projectsService.FindByName(command.ProjectName);
-
-        if (project is null)
-        {
-            Console.WriteLine("Could not find a project with the name \"{0}\".", command.ProjectName);
-            return;
-        }
-
-        var taskId = new TaskId(command.Id);
-        var task = new Task(taskId, command.Description);
-        project.AddTask(task);
     }
 
     private void Check(string? commandLineArgs)
