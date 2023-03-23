@@ -28,7 +28,7 @@ public class ShowTasksDueTodayQueryTests
         var consoleMock = commandBuilder.ConsoleMock;
         var command = commandBuilder.Please();
         
-        command.Execute();
+        command.Handle();
         
         consoleMock.Verify(x => x.WriteLine(It.IsRegex(project.Name)), Times.Once);
         consoleMock.Verify(x => x.WriteLine(It.Is<string>(line => line.Contains(task1.Description))), Times.Once);

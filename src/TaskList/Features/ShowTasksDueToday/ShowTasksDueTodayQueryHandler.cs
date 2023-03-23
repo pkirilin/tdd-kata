@@ -13,7 +13,7 @@ public class ShowTasksDueTodayQueryHandler
         _console = console;
     }
 
-    public void Execute()
+    public void Handle()
     {
         var projects = _projectsService.GetAll();
         

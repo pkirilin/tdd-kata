@@ -1,6 +1,7 @@
 using TaskList.Features.AddProject;
 using TaskList.Features.AddTask;
 using TaskList.Features.SetDeadline;
+using TaskList.Features.SetDone;
 using TaskList.Features.ShowTasksDueToday;
 using TaskList.Services;
 using TaskList.ValueObjects;
@@ -41,6 +42,11 @@ public class Application
     {
         var command = new Command(commandText);
         
+        // TODO: move to constructor
+        var setDoneHandler = new SetDoneCommandHandler(_projectsService, _console);
+        var setDeadlineHandler = new SetDeadlineCommandHandler(_projectsService, _console);
+        var showTasksDueTodayHandler = new ShowTasksDueTodayQueryHandler(_projectsService, _console);
+        
         switch (command.Type)
         {
             case "show":
@@ -50,22 +56,19 @@ public class Application
                 Add(command.ArgumentsText);
                 break;
             case "check":
-                Check(command.ArgumentsText);
+                setDoneHandler.Handle(new SetDoneCommand(command.ArgumentsText, true));
                 break;
             case "uncheck":
-                Uncheck(command.ArgumentsText);
+                setDoneHandler.Handle(new SetDoneCommand(command.ArgumentsText, false));
                 break;
             case "help":
                 Help();
                 break;
             case "deadline":
-                var request = new SetDeadlineCommand(command.ArgumentsText);
-                var handler = new SetDeadlineCommandHandler(_projectsService, _console);
-                handler.Handle(request);
+                setDeadlineHandler.Handle(new SetDeadlineCommand(command.ArgumentsText));
                 break;
             case "today":
-                var todayCommand = new ShowTasksDueTodayQueryHandler(_projectsService, _console);
-                todayCommand.Execute();
+                showTasksDueTodayHandler.Handle();
                 break;
             default:
                 Error(command.Type);
@@ -105,35 +108,6 @@ public class Application
                 addTaskHandler.Handle(new AddTaskCommand(subcommand.ArgumentsText));
                 break;
         }
-    }
-
-    private void Check(string? commandLineArgs)
-    {
-        SetDone(commandLineArgs, true);
-    }
-
-    private void Uncheck(string? commandLineArgs)
-    {
-        SetDone(commandLineArgs, false);
-    }
-
-    private void SetDone(string? commandLineArgs, bool done)
-    {
-        if (string.IsNullOrWhiteSpace(commandLineArgs))
-        {
-            return;
-        }
-        
-        var taskId = new TaskId(commandLineArgs);
-        var taskToUpdate = _projectsService.FindTaskById(taskId);
-
-        if (taskToUpdate is null)
-        {
-            _console.WriteLine("Could not find a task with an ID of {0}.", taskId);
-            return;
-        }
-
-        taskToUpdate.Done = done;
     }
 
     private void Help()
