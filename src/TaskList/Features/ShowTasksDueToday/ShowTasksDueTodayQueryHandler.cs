@@ -1,13 +1,13 @@
 using TaskList.Services;
 
-namespace TaskList.Commands.Today;
+namespace TaskList.Features.ShowTasksDueToday;
 
-public class TodayCommand : ICommand
+public class ShowTasksDueTodayQueryHandler
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
 
-    public TodayCommand(IProjectsService projectsService, IConsole console)
+    public ShowTasksDueTodayQueryHandler(IProjectsService projectsService, IConsole console)
     {
         _projectsService = projectsService;
         _console = console;

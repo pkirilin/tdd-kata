@@ -1,20 +1,20 @@
 using TaskList.Services;
 using TaskList.ValueObjects;
 
-namespace TaskList.Commands.Deadline;
+namespace TaskList.Features.SetDeadline;
 
-public class DeadlineRequestHandler
+public class SetDeadlineRequestHandler
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
 
-    public DeadlineRequestHandler(IProjectsService projectsService, IConsole console)
+    public SetDeadlineRequestHandler(IProjectsService projectsService, IConsole console)
     {
         _projectsService = projectsService;
         _console = console;
     }
     
-    public void Handle(DeadlineRequest request)
+    public void Handle(SetDeadlineRequest request)
     {
         var taskId = new TaskId(request.TaskId);
         var taskToUpdate = _projectsService.FindTaskById(taskId);

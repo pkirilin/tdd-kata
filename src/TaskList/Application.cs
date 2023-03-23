@@ -1,7 +1,8 @@
-using TaskList.Commands.Add;
-using TaskList.Commands.Deadline;
-using TaskList.Commands.Today;
 using TaskList.Entities;
+using TaskList.Features.AddProject;
+using TaskList.Features.AddTask;
+using TaskList.Features.SetDeadline;
+using TaskList.Features.ShowTasksDueToday;
 using TaskList.Services;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
@@ -60,12 +61,12 @@ public class Application
                 Help();
                 break;
             case "deadline":
-                var request = new DeadlineRequest(command.ArgumentsText);
-                var handler = new DeadlineRequestHandler(_projectsService, _console);
+                var request = new SetDeadlineRequest(command.ArgumentsText);
+                var handler = new SetDeadlineRequestHandler(_projectsService, _console);
                 handler.Handle(request);
                 break;
             case "today":
-                var todayCommand = new TodayCommand(_projectsService, _console);
+                var todayCommand = new ShowTasksDueTodayQueryHandler(_projectsService, _console);
                 todayCommand.Execute();
                 break;
             default:

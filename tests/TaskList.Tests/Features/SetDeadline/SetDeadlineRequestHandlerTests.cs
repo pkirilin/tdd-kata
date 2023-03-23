@@ -1,12 +1,12 @@
 using System.Text.RegularExpressions;
 using Moq;
-using TaskList.Commands.Deadline;
+using TaskList.Features.SetDeadline;
 using TaskList.Tests.Dsl;
 using TaskList.Tests.Fakes;
 
-namespace TaskList.Tests.Commands.Deadline;
+namespace TaskList.Tests.Features.SetDeadline;
 
-public class DeadlineRequestHandlerTests
+public class SetDeadlineRequestHandlerTests
 {
     private static readonly IClock Clock = new FakeClock();
 
@@ -17,9 +17,9 @@ public class DeadlineRequestHandlerTests
             .Task()
             .WithId("123")
             .Please();
-        var request = new DeadlineRequest($"{task.Id} 2023-03-01");
+        var request = new SetDeadlineRequest($"{task.Id} 2023-03-01");
         var handler = Create
-            .DeadlineRequestHandler()
+            .SetDeadlineRequestHandler()
             .WithTask(task)
             .Please();
 
@@ -31,9 +31,9 @@ public class DeadlineRequestHandlerTests
     [Test]
     public void Cannot_set_due_date_for_not_existing_task()
     {
-        var request = new DeadlineRequest($"123 {Clock.CurrentDateUtc.ToString("o")}");
+        var request = new SetDeadlineRequest($"123 {Clock.CurrentDateUtc.ToString("o")}");
         var handlerBuilder = Create
-            .DeadlineRequestHandler()
+            .SetDeadlineRequestHandler()
             .WithNotExistingTask("123");
         var consoleMock = handlerBuilder.ConsoleMock;
         var handler = handlerBuilder.Please();

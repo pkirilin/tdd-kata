@@ -1,6 +1,6 @@
-using TaskList.Commands.Add;
+using TaskList.Features.AddTask;
 
-namespace TaskList.Tests.Commands.Add;
+namespace TaskList.Tests.Features.AddTask;
 
 public class AddTaskRequestTests
 {

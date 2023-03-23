@@ -1,4 +1,4 @@
-namespace TaskList.Commands.Add;
+namespace TaskList.Features.AddProject;
 
 public class AddProjectRequest
 {

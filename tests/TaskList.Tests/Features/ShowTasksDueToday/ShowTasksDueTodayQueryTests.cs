@@ -1,9 +1,9 @@
 using Moq;
 using TaskList.Tests.Dsl;
 
-namespace TaskList.Tests.Commands.Today;
+namespace TaskList.Tests.Features.ShowTasksDueToday;
 
-public class TodayCommandTests
+public class ShowTasksDueTodayQueryTests
 {
     [Test]
     public void Prints_tasks_due_today_when_executed()
@@ -23,7 +23,7 @@ public class TodayCommandTests
             .WithTasks(task1, task2)
             .Please();
         var commandBuilder = Create
-            .TodayCommand()
+            .ShowTasksDueTodayQueryHandler()
             .WithProjects(project);
         var consoleMock = commandBuilder.ConsoleMock;
         var command = commandBuilder.Please();

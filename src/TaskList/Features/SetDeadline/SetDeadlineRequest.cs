@@ -1,11 +1,11 @@
-namespace TaskList.Commands.Deadline;
+namespace TaskList.Features.SetDeadline;
 
-public class DeadlineRequest
+public class SetDeadlineRequest
 {
     public string TaskId { get; }
     public DateOnly Date { get; }
     
-    public DeadlineRequest(string? commandLineArgs)
+    public SetDeadlineRequest(string? commandLineArgs)
     {
         if (string.IsNullOrWhiteSpace(commandLineArgs))
         {

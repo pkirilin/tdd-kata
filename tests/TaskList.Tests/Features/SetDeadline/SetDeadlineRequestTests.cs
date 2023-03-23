@@ -1,13 +1,13 @@
-using TaskList.Commands.Deadline;
+using TaskList.Features.SetDeadline;
 
-namespace TaskList.Tests.Commands.Deadline;
+namespace TaskList.Tests.Features.SetDeadline;
 
-public class DeadlineRequestTests
+public class SetDeadlineRequestTests
 {
     [Test]
     public void Can_be_created_from_valid_arguments()
     {
-        var request = new DeadlineRequest("1 2023-03-20");
+        var request = new SetDeadlineRequest("1 2023-03-20");
         
         Assert.That(request.TaskId, Is.EqualTo("1"));
         Assert.That(request.Date.ToString("o"), Is.EqualTo("2023-03-20"));
@@ -18,14 +18,14 @@ public class DeadlineRequestTests
     {
         Assert.Throws<FormatException>(() =>
         {
-            var _ = new DeadlineRequest("1 sfdfdsfs");
+            var _ = new SetDeadlineRequest("1 sfdfdsfs");
         });
     }
     
     [Test]
     public void Accepts_string_ids()
     {
-        var request = new DeadlineRequest("TASK01 2023-03-20");
+        var request = new SetDeadlineRequest("TASK01 2023-03-20");
         
         Assert.That(request.TaskId, Is.EqualTo("TASK01"));
     }
