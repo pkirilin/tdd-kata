@@ -2,7 +2,7 @@ using TaskList.Services;
 
 namespace TaskList.Features.ShowTasksDueToday;
 
-public class ShowTasksDueTodayQueryHandler
+public class ShowTasksDueTodayQueryHandler : IHandler<ShowTasksDueTodayQuery>
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;
@@ -13,7 +13,7 @@ public class ShowTasksDueTodayQueryHandler
         _console = console;
     }
 
-    public void Handle()
+    public void Handle(ShowTasksDueTodayQuery query)
     {
         var projects = _projectsService.GetAll();
         

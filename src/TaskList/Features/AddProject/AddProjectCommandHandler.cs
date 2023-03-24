@@ -3,7 +3,7 @@ using TaskList.Services;
 
 namespace TaskList.Features.AddProject;
 
-public class AddProjectCommandHandler
+public class AddProjectCommandHandler : IHandler<AddProjectCommand>
 {
     private readonly IClock _clock;
     private readonly IProjectsService _projectsService;

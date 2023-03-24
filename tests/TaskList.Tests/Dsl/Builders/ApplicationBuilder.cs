@@ -12,7 +12,7 @@ public class ApplicationBuilder
     public Application Please()
     {
         var services = new ServiceCollection();
-        services.RegisterDependencies();
+        services.AddDependencies();
         ReplaceRealServicesWithFakes(services);
 
         var serviceProvider = services.BuildServiceProvider();

@@ -3,7 +3,7 @@ using TaskList.ValueObjects;
 
 namespace TaskList.Features.SetDeadline;
 
-public class SetDeadlineCommandHandler
+public class SetDeadlineCommandHandler : IHandler<SetDeadlineCommand>
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;

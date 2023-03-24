@@ -3,7 +3,7 @@ using TaskList.ValueObjects;
 
 namespace TaskList.Features.SetDone;
 
-public class SetDoneCommandHandler
+public class SetDoneCommandHandler : IHandler<SetDoneCommand>
 {
     private readonly IProjectsService _projectsService;
     private readonly IConsole _console;

@@ -8,8 +8,8 @@ public static class Program
     public static void Main()
     {
         var services = new ServiceCollection();
-        services.RegisterDependencies();
-        
+        services.AddDependencies();
+
         var app = services
             .BuildServiceProvider()
             .GetRequiredService<Application>();

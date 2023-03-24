@@ -4,7 +4,7 @@ using Task = TaskList.Entities.Task;
 
 namespace TaskList.Features.AddTask;
 
-public class AddTaskCommandHandler
+public class AddTaskCommandHandler : IHandler<AddTaskCommand>
 {
     private readonly IProjectsService _projectsService;
 

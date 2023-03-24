@@ -1,4 +1,5 @@
 using Moq;
+using TaskList.Features.ShowTasksDueToday;
 using TaskList.Tests.Dsl;
 
 namespace TaskList.Tests.Features.ShowTasksDueToday;
@@ -28,7 +29,7 @@ public class ShowTasksDueTodayQueryTests
         var consoleMock = commandBuilder.ConsoleMock;
         var command = commandBuilder.Please();
         
-        command.Handle();
+        command.Handle(new ShowTasksDueTodayQuery());
         
         consoleMock.Verify(x => x.WriteLine(It.IsRegex(project.Name)), Times.Once);
         consoleMock.Verify(x => x.WriteLine(It.Is<string>(line => line.Contains(task1.Description))), Times.Once);
