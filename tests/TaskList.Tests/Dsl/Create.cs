@@ -4,6 +4,8 @@ namespace TaskList.Tests.Dsl;
 
 public static class Create
 {
+    public static ApplicationBuilder Application() => new();
+    
     public static TaskBuilder Task() => new();
     public static ProjectBuilder Project() => new();
     

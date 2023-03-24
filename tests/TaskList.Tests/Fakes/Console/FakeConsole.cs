@@ -1,6 +1,6 @@
 namespace TaskList.Tests.Fakes.Console;
 
-internal class FakeConsole : IConsole
+public class FakeConsole : IConsole
 {
     private readonly TextReader _inputReader;
     private readonly TextWriter _inputWriter;

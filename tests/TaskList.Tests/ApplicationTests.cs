@@ -1,5 +1,4 @@
-using TaskList.Services;
-using TaskList.Tests.Fakes;
+using TaskList.Tests.Dsl;
 using TaskList.Tests.Fakes.Console;
 
 namespace TaskList.Tests;
@@ -9,20 +8,18 @@ public class ApplicationTests
 {
     private const string Prompt = "> ";
 
-    private FakeConsole _console = null!;
-    private FakeClock _clock = null!;
+    private FakeConsole? _console;
     private CancellationTokenSource _cancellationTokenSource = null!;
     private Task? _applicationTask;
 
     [SetUp]
     public void StartTheApplication()
     {
-        _console = new FakeConsole();
-        _clock = new FakeClock();
-        var projectsService = new ProjectsService();
-        var application = new Application(_console, _clock, projectsService);
+        var appBuilder = Create.Application();
+        var app = appBuilder.Please();
+        _console = appBuilder.Console;
         _cancellationTokenSource = new CancellationTokenSource();
-        _applicationTask = Task.Run(() => application.Run(), _cancellationTokenSource.Token);
+        _applicationTask = Task.Run(() => app.Run(), _cancellationTokenSource.Token);
     }
 
     [TearDown]
@@ -117,7 +114,7 @@ public class ApplicationTests
 
     private void Read(string expectedOutput)
     {
-        var actualOutput = _console.RetrieveOutput(expectedOutput.Length);
+        var actualOutput = _console?.RetrieveOutput(expectedOutput.Length);
         Assert.That(actualOutput, Is.EqualTo(expectedOutput));
     }
 
@@ -131,6 +128,6 @@ public class ApplicationTests
 
     private void Write(string input)
     {
-        _console.SendInput(input + Environment.NewLine);
+        _console?.SendInput(input + Environment.NewLine);
     }
 }

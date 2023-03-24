@@ -1,15 +1,19 @@
-﻿using TaskList.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using TaskList.DependencyInjection;
 
 namespace TaskList;
 
 public static class Program
 {
-    public static void Main(string[] args)
+    public static void Main()
     {
-        var clock = new Clock();
-        var projectsService = new ProjectsService();
-        var application = new Application(new RealConsole(), clock, projectsService);
+        var services = new ServiceCollection();
+        services.RegisterDependencies();
         
-        application.Run();
+        var app = services
+            .BuildServiceProvider()
+            .GetRequiredService<Application>();
+        
+        app.Run();
     }
 }
