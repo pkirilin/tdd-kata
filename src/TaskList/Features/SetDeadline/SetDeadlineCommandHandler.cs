@@ -1,23 +1,23 @@
-using TaskList.Services;
+using TaskList.DataAccess;
 using TaskList.ValueObjects;
 
 namespace TaskList.Features.SetDeadline;
 
 public class SetDeadlineCommandHandler : IHandler<SetDeadlineCommand>
 {
-    private readonly IProjectsService _projectsService;
+    private readonly IProjectsRepository _projectsRepository;
     private readonly IConsole _console;
 
-    public SetDeadlineCommandHandler(IProjectsService projectsService, IConsole console)
+    public SetDeadlineCommandHandler(IProjectsRepository projectsRepository, IConsole console)
     {
-        _projectsService = projectsService;
+        _projectsRepository = projectsRepository;
         _console = console;
     }
     
     public void Handle(SetDeadlineCommand command)
     {
         var taskId = new TaskId(command.TaskId);
-        var taskToUpdate = _projectsService.FindTaskById(taskId);
+        var taskToUpdate = _projectsRepository.FindTaskById(taskId);
 
         if (taskToUpdate is null)
         {

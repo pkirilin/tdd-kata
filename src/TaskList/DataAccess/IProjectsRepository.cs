@@ -2,14 +2,14 @@ using TaskList.Entities;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
-namespace TaskList.Services;
+namespace TaskList.DataAccess;
 
-public interface IProjectsService
+public interface IProjectsRepository
 {
-    TaskId GenerateNextTaskId();
     IReadOnlyList<Project> GetAll();
     
     Project? FindByName(string name);
+    
     Task? FindTaskById(TaskId id);
     
     void Add(Project project);

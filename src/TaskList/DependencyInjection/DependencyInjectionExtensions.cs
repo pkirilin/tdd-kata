@@ -1,12 +1,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using TaskList.Actions;
+using TaskList.DataAccess;
 using TaskList.Features;
 using TaskList.Features.AddProject;
 using TaskList.Features.AddTask;
 using TaskList.Features.SetDeadline;
 using TaskList.Features.SetDone;
 using TaskList.Features.ShowTasksDueToday;
-using TaskList.Services;
 
 namespace TaskList.DependencyInjection;
 
@@ -15,7 +15,7 @@ public static class DependencyInjectionExtensions
     public static void AddDependencies(this IServiceCollection services)
     {
         services.AddSingleton<Application>();
-        services.AddSingleton<IProjectsService, ProjectsService>();
+        services.AddSingleton<IProjectsRepository, InMemoryProjectsRepository>();
         services.AddSingleton<IClock, Clock>();
         services.AddSingleton<IConsole, RealConsole>();
         services.AddSingleton<IController, Controller>();

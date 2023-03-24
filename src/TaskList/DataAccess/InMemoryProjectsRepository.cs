@@ -2,17 +2,11 @@ using TaskList.Entities;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
-namespace TaskList.Services;
+namespace TaskList.DataAccess;
 
-public class ProjectsService : IProjectsService
+public class InMemoryProjectsRepository : IProjectsRepository
 {
-    private long _lastGeneratedTaskId;
     private readonly List<Project> _projects = new();
-
-    public TaskId GenerateNextTaskId()
-    {
-        return new TaskId((++_lastGeneratedTaskId).ToString());
-    }
 
     public IReadOnlyList<Project> GetAll()
     {

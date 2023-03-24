@@ -1,13 +1,13 @@
 using Moq;
+using TaskList.DataAccess;
 using TaskList.Entities;
 using TaskList.Features.ShowTasksDueToday;
-using TaskList.Services;
 
 namespace TaskList.Tests.Dsl.Builders;
 
 public class ShowTasksDueTodayQueryHandlerBuilder
 {
-    private readonly Mock<IProjectsService> _projectsServiceMock = new();
+    private readonly Mock<IProjectsRepository> _projectsServiceMock = new();
     private readonly Mock<IConsole> _consoleMock = new();
 
     public Mock<IConsole> ConsoleMock => _consoleMock;

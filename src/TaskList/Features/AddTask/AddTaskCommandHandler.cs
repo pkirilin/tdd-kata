@@ -1,4 +1,4 @@
-using TaskList.Services;
+using TaskList.DataAccess;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
@@ -6,16 +6,16 @@ namespace TaskList.Features.AddTask;
 
 public class AddTaskCommandHandler : IHandler<AddTaskCommand>
 {
-    private readonly IProjectsService _projectsService;
+    private readonly IProjectsRepository _projectsRepository;
 
-    public AddTaskCommandHandler(IProjectsService projectsService)
+    public AddTaskCommandHandler(IProjectsRepository projectsRepository)
     {
-        _projectsService = projectsService;
+        _projectsRepository = projectsRepository;
     }
     
     public void Handle(AddTaskCommand command)
     {
-        var project = _projectsService.FindByName(command.ProjectName);
+        var project = _projectsRepository.FindByName(command.ProjectName);
 
         if (project is null)
         {

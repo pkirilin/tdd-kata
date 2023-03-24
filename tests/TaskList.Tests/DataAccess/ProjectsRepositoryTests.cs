@@ -1,22 +1,22 @@
+using TaskList.DataAccess;
 using TaskList.Entities;
-using TaskList.Services;
 using TaskList.Tests.Dsl;
 using TaskList.Tests.Fakes;
 
-namespace TaskList.Tests.Services;
+namespace TaskList.Tests.DataAccess;
 
-public class ProjectsServiceTests
+public class ProjectsRepositoryTests
 {
-    private readonly IProjectsService _projectsService = new ProjectsService();
+    private readonly IProjectsRepository _projectsRepository = new InMemoryProjectsRepository();
 
     [Test]
     public void Project_can_be_added()
     {
         var project = new Project("my project", new FakeClock());
 
-        _projectsService.Add(project);
+        _projectsRepository.Add(project);
         
-        Assert.That(_projectsService.GetAll(), Does.Contain(project));
+        Assert.That(_projectsRepository.GetAll(), Does.Contain(project));
     }
 
     [Test]
@@ -30,10 +30,10 @@ public class ProjectsServiceTests
             .Project()
             .WithName("second")
             .Please();
-        _projectsService.Add(firstProject);
-        _projectsService.Add(secondProject);
+        _projectsRepository.Add(firstProject);
+        _projectsRepository.Add(secondProject);
 
-        var project = _projectsService.FindByName("first");
+        var project = _projectsRepository.FindByName("first");
         
         Assert.That(project, Is.Not.Null);
         Assert.That(project?.Name, Is.EqualTo("first"));
@@ -52,29 +52,12 @@ public class ProjectsServiceTests
             .WithName("my project")
             .WithTasks(task)
             .Please();
-        _projectsService.Add(project);
+        _projectsRepository.Add(project);
 
-        var foundTask = _projectsService.FindTaskById(task.Id);
+        var foundTask = _projectsRepository.FindTaskById(task.Id);
         
         Assert.That(foundTask, Is.Not.Null);
         Assert.That(foundTask?.Id, Is.EqualTo(task.Id));
         Assert.That(foundTask?.Description, Is.EqualTo("Read a book"));
-    }
-
-    [Test]
-    public void Automatic_task_id_generation_is_supported()
-    {
-        var firstTaskId = _projectsService.GenerateNextTaskId();
-        var secondTaskId = _projectsService.GenerateNextTaskId();
-        var thirdTaskId = _projectsService.GenerateNextTaskId();
-
-        var results = new[]
-        {
-            firstTaskId.Value,
-            secondTaskId.Value,
-            thirdTaskId.Value
-        };
-
-        Assert.That(results, Is.EqualTo(new[] { "1", "2", "3" }));
     }
 }

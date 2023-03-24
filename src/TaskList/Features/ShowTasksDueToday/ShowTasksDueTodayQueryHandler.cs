@@ -1,21 +1,21 @@
-using TaskList.Services;
+using TaskList.DataAccess;
 
 namespace TaskList.Features.ShowTasksDueToday;
 
 public class ShowTasksDueTodayQueryHandler : IHandler<ShowTasksDueTodayQuery>
 {
-    private readonly IProjectsService _projectsService;
+    private readonly IProjectsRepository _projectsRepository;
     private readonly IConsole _console;
 
-    public ShowTasksDueTodayQueryHandler(IProjectsService projectsService, IConsole console)
+    public ShowTasksDueTodayQueryHandler(IProjectsRepository projectsRepository, IConsole console)
     {
-        _projectsService = projectsService;
+        _projectsRepository = projectsRepository;
         _console = console;
     }
 
     public void Handle(ShowTasksDueTodayQuery query)
     {
-        var projects = _projectsService.GetAll();
+        var projects = _projectsRepository.GetAll();
         
         foreach (var project in projects)
         {

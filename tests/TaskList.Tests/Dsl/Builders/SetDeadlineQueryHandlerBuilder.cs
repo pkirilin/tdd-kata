@@ -1,6 +1,6 @@
 using Moq;
+using TaskList.DataAccess;
 using TaskList.Features.SetDeadline;
-using TaskList.Services;
 using TaskList.Tests.Fakes;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
@@ -11,7 +11,7 @@ public class SetDeadlineQueryHandlerBuilder
 {
     private static readonly IClock Clock = new FakeClock();
     
-    private readonly Mock<IProjectsService> _projectsServiceMock = new();
+    private readonly Mock<IProjectsRepository> _projectsServiceMock = new();
     private readonly Mock<IConsole> _consoleMock = new();
     private TaskId _taskId = new("1");
 

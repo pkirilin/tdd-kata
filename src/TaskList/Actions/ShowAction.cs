@@ -1,15 +1,15 @@
-using TaskList.Services;
+using TaskList.DataAccess;
 
 namespace TaskList.Actions;
 
 public class ShowAction : IAction
 {
-    private readonly IProjectsService _projectsService;
+    private readonly IProjectsRepository _projectsRepository;
     private readonly IConsole _console;
 
-    public ShowAction(IProjectsService projectsService, IConsole console)
+    public ShowAction(IProjectsRepository projectsRepository, IConsole console)
     {
-        _projectsService = projectsService;
+        _projectsRepository = projectsRepository;
         _console = console;
     }
     
@@ -17,7 +17,7 @@ public class ShowAction : IAction
     
     public void Execute(string? argumentsInputText)
     {
-        var projects = _projectsService.GetAll();
+        var projects = _projectsRepository.GetAll();
         
         foreach (var project in projects)
         {

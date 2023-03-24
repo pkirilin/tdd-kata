@@ -1,22 +1,22 @@
+using TaskList.DataAccess;
 using TaskList.Entities;
-using TaskList.Services;
 
 namespace TaskList.Features.AddProject;
 
 public class AddProjectCommandHandler : IHandler<AddProjectCommand>
 {
     private readonly IClock _clock;
-    private readonly IProjectsService _projectsService;
+    private readonly IProjectsRepository _projectsRepository;
 
-    public AddProjectCommandHandler(IClock clock, IProjectsService projectsService)
+    public AddProjectCommandHandler(IClock clock, IProjectsRepository projectsRepository)
     {
         _clock = clock;
-        _projectsService = projectsService;
+        _projectsRepository = projectsRepository;
     }
     
     public void Handle(AddProjectCommand command)
     {
         var project = new Project(command.Name, _clock);
-        _projectsService.Add(project);
+        _projectsRepository.Add(project);
     }
 }
