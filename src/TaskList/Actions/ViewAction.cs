@@ -18,6 +18,19 @@ public class ViewAction : IAction
     
     public void Execute(string? argumentsInputText)
     {
+        switch (argumentsInputText)
+        {
+            case "by deadline":
+                PrintTasksByDeadline();
+                break;
+            case "by project":
+                PrintTasksByProject();
+                break;
+        }
+    }
+    
+    private void PrintTasksByDeadline()
+    {
         var query = new GetTasksQuery
         {
             IncludeTasksOnlyWithDueDate = true
@@ -45,6 +58,30 @@ public class ViewAction : IAction
                 _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
             }
         
+            _console.WriteLine();
+        }
+    }
+
+    private void PrintTasksByProject()
+    {
+        var query = new GetTasksQuery();
+        var result = _getTasksHandler.Handle(query);
+
+        var projects = result.Tasks
+            .GroupBy(t => t.Project)
+            .Select(g => g.Key)
+            .ToList()
+            .AsReadOnly();
+        
+        foreach (var project in projects)
+        {
+            _console.WriteLine(project.Name);
+            
+            foreach (var task in project.Tasks)
+            {
+                _console.WriteLine("    [{0}] {1}: {2}", (task.Done ? 'x' : ' '), task.Id, task.Description);
+            }
+
             _console.WriteLine();
         }
     }

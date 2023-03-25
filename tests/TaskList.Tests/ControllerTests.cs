@@ -24,7 +24,6 @@ public class ControllerTests
     [TestCase("check", typeof(CheckAction))]
     [TestCase("deadline", typeof(DeadlineAction))]
     [TestCase("help", typeof(HelpAction))]
-    [TestCase("show", typeof(ShowAction))]
     [TestCase("today", typeof(TodayAction))]
     [TestCase("uncheck", typeof(UncheckAction))]
     [TestCase("view", typeof(ViewAction))]

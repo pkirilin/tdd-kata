@@ -31,7 +31,6 @@ public static class DependencyInjectionExtensions
         services.AddSingleton<IAction, DeadlineAction>();
         services.AddSingleton<IAction, DeleteAction>();
         services.AddSingleton<IAction, HelpAction>();
-        services.AddSingleton<IAction, ShowAction>();
         services.AddSingleton<IAction, TodayAction>();
         services.AddSingleton<IAction, UncheckAction>();
         services.AddSingleton<IAction, ViewAction>();

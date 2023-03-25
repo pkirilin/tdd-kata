@@ -34,13 +34,13 @@ public class ApplicationTests
     [Test, Timeout(1000)]
     public void User_can_add_view_and_check_tasks()
     {
-        Execute("show");
+        Execute("view by project");
 
         Execute("add project secrets");
         Execute("add task secrets SEC001 Eat more donuts.");
         Execute("add task secrets SEC002 Destroy all humans.");
 
-        Execute("show");
+        Execute("view by project");
         ReadLines(
             "secrets",
             "    [ ] SEC001: Eat more donuts.",
@@ -61,7 +61,7 @@ public class ApplicationTests
         Execute("check TRA003");
         Execute("check TRA004");
 
-        Execute("show");
+        Execute("view by project");
         ReadLines(
             "secrets",
             "    [x] SEC001: Eat more donuts.",
@@ -87,7 +87,7 @@ public class ApplicationTests
         Execute("add task main 44bMf Read a book");
         Execute("add task main h4Nq5 Buy food");
         
-        Execute("show");
+        Execute("view by project");
         ReadLines(
             "main",
             "    [ ] 44bMf: Read a book",
@@ -113,7 +113,7 @@ public class ApplicationTests
         Execute("add task main 44bMf Read a book");
         Execute("add task main h4Nq5 Buy food");
         
-        Execute("show");
+        Execute("view by project");
         ReadLines(
             "main",
             "    [ ] 44bMf: Read a book",
@@ -123,7 +123,7 @@ public class ApplicationTests
         
         Execute("delete 44bMf");
         
-        Execute("show");
+        Execute("view by project");
         ReadLines(
             "main",
             "    [ ] h4Nq5: Buy food",
@@ -149,6 +149,26 @@ public class ApplicationTests
             "",
             "2023-03-21",
             "    [ ] 53bTD: Go for a walk"
+        );
+    }
+    
+    [Test, Timeout(1000)]
+    public void User_can_view_tasks_by_project()
+    {
+        Execute("add project first");
+        Execute("add project second");
+        Execute("add task first 44bMf Read a book");
+        Execute("add task first 53bTD Go for a walk");
+        Execute("add task second h4Nq5 Buy food");
+
+        Execute("view by project");
+        ReadLines(
+            "first",
+            "    [ ] 44bMf: Read a book",
+            "    [ ] 53bTD: Go for a walk",
+            "",
+            "second",
+            "    [ ] h4Nq5: Buy food"
         );
     }
 
