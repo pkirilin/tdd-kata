@@ -33,4 +33,23 @@ public class ProjectBuilder
         _tasks.AddRange(tasks);
         return this;
     }
+
+    public ProjectBuilder WithTasks(params string[] taskDescriptions)
+    {
+        _tasks.AddRange(taskDescriptions.Select(description => Create
+            .Task()
+            .WithDescription(description)
+            .Please()));
+        return this;
+    }
+    
+    public ProjectBuilder WithTasksHavingDeadlineOnToday(params string[] taskDescriptions)
+    {
+        _tasks.AddRange(taskDescriptions.Select(description => Create
+            .Task()
+            .WithDescription(description)
+            .WithDeadlineOnToday()
+            .Please()));
+        return this;
+    }
 }

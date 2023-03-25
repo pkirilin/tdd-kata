@@ -1,7 +1,6 @@
 using Moq;
 using TaskList.DataAccess;
 using TaskList.Features.SetDeadline;
-using TaskList.Tests.Fakes;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
 
@@ -9,8 +8,6 @@ namespace TaskList.Tests.Dsl.Builders;
 
 public class SetDeadlineQueryHandlerBuilder
 {
-    private static readonly IClock Clock = new FakeClock();
-    
     private readonly Mock<IProjectsRepository> _projectsServiceMock = new();
     private readonly Mock<IConsole> _consoleMock = new();
     private TaskId _taskId = new("1");
@@ -37,17 +34,6 @@ public class SetDeadlineQueryHandlerBuilder
         _projectsServiceMock
             .Setup(x => x.FindTaskById(_taskId))
             .Returns(null as Task);
-        return this;
-    }
-    
-    public SetDeadlineQueryHandlerBuilder WithDeadline(string deadlineDateArg)
-    {
-        return this;
-    }
-    
-    public SetDeadlineQueryHandlerBuilder WithDeadlineOnToday()
-    {
-        Clock.CurrentDateUtc.ToString("O");
         return this;
     }
 }

@@ -1,25 +1,22 @@
 using Moq;
 using TaskList.DataAccess;
 using TaskList.Entities;
-using TaskList.Features.ShowTasksDueToday;
+using TaskList.Features.GetTasksDueToday;
 
 namespace TaskList.Tests.Dsl.Builders;
 
 public class ShowTasksDueTodayQueryHandlerBuilder
 {
-    private readonly Mock<IProjectsRepository> _projectsServiceMock = new();
-    private readonly Mock<IConsole> _consoleMock = new();
+    private readonly Mock<IProjectsRepository> _projectsRepositoryMock = new();
 
-    public Mock<IConsole> ConsoleMock => _consoleMock;
-
-    public ShowTasksDueTodayQueryHandler Please()
+    public GetTasksDueTodayQueryHandler Please()
     {
-        return new ShowTasksDueTodayQueryHandler(_projectsServiceMock.Object, _consoleMock.Object);
+        return new GetTasksDueTodayQueryHandler(_projectsRepositoryMock.Object);
     }
 
     public ShowTasksDueTodayQueryHandlerBuilder WithProjects(params Project[] projects)
     {
-        _projectsServiceMock
+        _projectsRepositoryMock
             .Setup(x => x.GetAll())
             .Returns(projects);
         return this;

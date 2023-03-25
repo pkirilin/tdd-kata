@@ -4,9 +4,9 @@ using TaskList.DataAccess;
 using TaskList.Features;
 using TaskList.Features.AddProject;
 using TaskList.Features.AddTask;
+using TaskList.Features.GetTasksDueToday;
 using TaskList.Features.SetDeadline;
 using TaskList.Features.SetDone;
-using TaskList.Features.ShowTasksDueToday;
 
 namespace TaskList.DependencyInjection;
 
@@ -40,6 +40,6 @@ public static class DependencyInjectionExtensions
         services.AddSingleton<IHandler<AddTaskCommand>, AddTaskCommandHandler>();
         services.AddSingleton<IHandler<SetDeadlineCommand>, SetDeadlineCommandHandler>();
         services.AddSingleton<IHandler<SetDoneCommand>, SetDoneCommandHandler>();
-        services.AddSingleton<IHandler<ShowTasksDueTodayQuery>, ShowTasksDueTodayQueryHandler>();
+        services.AddSingleton<IHandler<GetTasksDueTodayQuery, GetTasksDueTodayResult>, GetTasksDueTodayQueryHandler>();
     }
 }
