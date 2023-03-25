@@ -18,6 +18,11 @@ public class Project
     {
         _tasks.Add(task);
     }
+
+    public void RemoveTask(Task task)
+    {
+        _tasks.Remove(task);
+    }
     
     public IReadOnlyList<Task> GetTasksDueToday()
     {

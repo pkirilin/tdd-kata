@@ -4,6 +4,7 @@ using TaskList.DataAccess;
 using TaskList.Features;
 using TaskList.Features.AddProject;
 using TaskList.Features.AddTask;
+using TaskList.Features.DeleteTask;
 using TaskList.Features.GetTasksDueToday;
 using TaskList.Features.SetDeadline;
 using TaskList.Features.SetDone;
@@ -19,15 +20,16 @@ public static class DependencyInjectionExtensions
         services.AddSingleton<IClock, Clock>();
         services.AddSingleton<IConsole, RealConsole>();
         services.AddSingleton<IController, Controller>();
-        services.AddControllerWithActions();
+        services.AddActions();
         services.AddHandlers();
     }
 
-    private static void AddControllerWithActions(this IServiceCollection services)
+    private static void AddActions(this IServiceCollection services)
     {
         services.AddSingleton<IAction, AddAction>();
         services.AddSingleton<IAction, CheckAction>();
         services.AddSingleton<IAction, DeadlineAction>();
+        services.AddSingleton<IAction, DeleteAction>();
         services.AddSingleton<IAction, HelpAction>();
         services.AddSingleton<IAction, ShowAction>();
         services.AddSingleton<IAction, TodayAction>();
@@ -38,8 +40,9 @@ public static class DependencyInjectionExtensions
     {
         services.AddSingleton<IHandler<AddProjectCommand>, AddProjectCommandHandler>();
         services.AddSingleton<IHandler<AddTaskCommand>, AddTaskCommandHandler>();
+        services.AddSingleton<IHandler<DeleteTaskCommand>, DeleteTaskCommandHandler>();
+        services.AddSingleton<IHandler<GetTasksDueTodayQuery, GetTasksDueTodayResult>, GetTasksDueTodayQueryHandler>();
         services.AddSingleton<IHandler<SetDeadlineCommand>, SetDeadlineCommandHandler>();
         services.AddSingleton<IHandler<SetDoneCommand>, SetDoneCommandHandler>();
-        services.AddSingleton<IHandler<GetTasksDueTodayQuery, GetTasksDueTodayResult>, GetTasksDueTodayQueryHandler>();
     }
 }

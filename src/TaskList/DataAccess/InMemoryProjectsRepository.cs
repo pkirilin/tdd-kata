@@ -18,6 +18,11 @@ public class InMemoryProjectsRepository : IProjectsRepository
         return _projects.FirstOrDefault(p => p.Name == name);
     }
 
+    public Project? FindByTaskId(TaskId id)
+    {
+        return _projects.FirstOrDefault(p => p.Tasks.Any(t => t.Id == id));
+    }
+
     public Task? FindTaskById(TaskId id)
     {
         return _projects

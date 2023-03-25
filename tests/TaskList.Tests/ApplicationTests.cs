@@ -106,6 +106,31 @@ public class ApplicationTests
         Execute("quit");
     }
 
+    [Test, Timeout(1000)]
+    public void User_can_delete_task_by_id()
+    {
+        Execute("add project main");
+        Execute("add task main 44bMf Read a book");
+        Execute("add task main h4Nq5 Buy food");
+        
+        Execute("show");
+        ReadLines(
+            "main",
+            "    [ ] 44bMf: Read a book",
+            "    [ ] h4Nq5: Buy food",
+            ""
+        );
+        
+        Execute("delete 44bMf");
+        
+        Execute("show");
+        ReadLines(
+            "main",
+            "    [ ] h4Nq5: Buy food",
+            ""
+        );
+    }
+
     private void Execute(string command)
     {
         Read(Prompt);

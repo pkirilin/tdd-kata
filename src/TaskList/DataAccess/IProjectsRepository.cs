@@ -10,6 +10,8 @@ public interface IProjectsRepository
     
     Project? FindByName(string name);
     
+    Project? FindByTaskId(TaskId id);
+    
     Task? FindTaskById(TaskId id);
     
     void Add(Project project);
