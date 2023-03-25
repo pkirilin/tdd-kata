@@ -27,6 +27,7 @@ public class ControllerTests
     [TestCase("show", typeof(ShowAction))]
     [TestCase("today", typeof(TodayAction))]
     [TestCase("uncheck", typeof(UncheckAction))]
+    [TestCase("view", typeof(ViewAction))]
     public void Determines_correct_action_by_command_type(string commandType, Type expectedActionType)
     {
         var action = _controller.GetAction(commandType);

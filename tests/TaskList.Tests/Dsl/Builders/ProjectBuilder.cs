@@ -43,6 +43,16 @@ public class ProjectBuilder
         return this;
     }
     
+    public ProjectBuilder WithTaskHavingDeadline(string taskDescription, string deadlineDate)
+    {
+        _tasks.Add(Create
+            .Task()
+            .WithDescription(taskDescription)
+            .WithDeadline(deadlineDate)
+            .Please());
+        return this;
+    }
+    
     public ProjectBuilder WithTasksHavingDeadlineOnToday(params string[] taskDescriptions)
     {
         _tasks.AddRange(taskDescriptions.Select(description => Create

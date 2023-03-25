@@ -23,6 +23,12 @@ public class TaskBuilder
         _description = description;
         return this;
     }
+    
+    public TaskBuilder WithDeadline(string deadlineDate)
+    {
+        _dueOn = DateOnly.Parse(deadlineDate);
+        return this;
+    }
 
     public TaskBuilder WithDeadlineOnToday()
     {

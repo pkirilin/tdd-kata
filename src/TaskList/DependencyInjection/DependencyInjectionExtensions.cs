@@ -5,6 +5,7 @@ using TaskList.Features;
 using TaskList.Features.AddProject;
 using TaskList.Features.AddTask;
 using TaskList.Features.DeleteTask;
+using TaskList.Features.GetTasks;
 using TaskList.Features.GetTasksDueToday;
 using TaskList.Features.SetDeadline;
 using TaskList.Features.SetDone;
@@ -34,6 +35,7 @@ public static class DependencyInjectionExtensions
         services.AddSingleton<IAction, ShowAction>();
         services.AddSingleton<IAction, TodayAction>();
         services.AddSingleton<IAction, UncheckAction>();
+        services.AddSingleton<IAction, ViewAction>();
     }
 
     private static void AddHandlers(this IServiceCollection services)
@@ -41,6 +43,7 @@ public static class DependencyInjectionExtensions
         services.AddSingleton<IHandler<AddProjectCommand>, AddProjectCommandHandler>();
         services.AddSingleton<IHandler<AddTaskCommand>, AddTaskCommandHandler>();
         services.AddSingleton<IHandler<DeleteTaskCommand>, DeleteTaskCommandHandler>();
+        services.AddSingleton<IHandler<GetTasksQuery, GetTasksQueryResult>, GetTasksQueryHandler>();
         services.AddSingleton<IHandler<GetTasksDueTodayQuery, GetTasksDueTodayResult>, GetTasksDueTodayQueryHandler>();
         services.AddSingleton<IHandler<SetDeadlineCommand>, SetDeadlineCommandHandler>();
         services.AddSingleton<IHandler<SetDoneCommand>, SetDoneCommandHandler>();

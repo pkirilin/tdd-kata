@@ -130,6 +130,27 @@ public class ApplicationTests
             ""
         );
     }
+    
+    [Test, Timeout(1000)]
+    public void User_can_view_tasks_by_deadline()
+    {
+        Execute("add project main");
+        Execute("add task main 44bMf Read a book");
+        Execute("add task main 53bTD Go for a walk");
+        Execute("add task main h4Nq5 Buy food");
+        
+        Execute("deadline h4Nq5 2023-03-20");
+        Execute("deadline 53bTD 2023-03-21");
+        
+        Execute("view by deadline");
+        ReadLines(
+            "2023-03-20",
+            "    [ ] h4Nq5: Buy food",
+            "",
+            "2023-03-21",
+            "    [ ] 53bTD: Go for a walk"
+        );
+    }
 
     private void Execute(string command)
     {
