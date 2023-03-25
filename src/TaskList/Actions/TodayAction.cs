@@ -1,34 +1,48 @@
 using TaskList.Features;
-using TaskList.Features.GetTasksDueToday;
+using TaskList.Features.GetTasks;
 
 namespace TaskList.Actions;
 
 public class TodayAction : IAction
 {
+    private readonly IHandler<GetTasksQuery, GetTasksQueryResult> _getTasksHandler;
     private readonly IConsole _console;
-    private readonly IHandler<GetTasksDueTodayQuery, GetTasksDueTodayResult> _getTasksDueTodayHandler;
 
-    public TodayAction(
-        IConsole console,
-        IHandler<GetTasksDueTodayQuery, GetTasksDueTodayResult> getTasksDueTodayHandler)
+    public TodayAction(IHandler<GetTasksQuery, GetTasksQueryResult> getTasksHandler, IConsole console)
     {
+        _getTasksHandler = getTasksHandler;
         _console = console;
-        _getTasksDueTodayHandler = getTasksDueTodayHandler;
     }
     
     public string CommandType => "today";
     
     public void Execute(string? argumentsInputText)
     {
-        var result = _getTasksDueTodayHandler.Handle(new GetTasksDueTodayQuery());
-        
-        foreach (var project in result.Projects)
+        var query = new GetTasksQuery
         {
-            _console.WriteLine(project.Name);
+            IncludeTasksOnlyDueToday = true
+        };
+        
+        var result = _getTasksHandler.Handle(query);
 
-            foreach (var task in project.Tasks)
+        var tasksGroupedByProject = result.Tasks
+            .GroupBy(t => t.Project)
+            .OrderBy(t => t.Key.Name)
+            .ToList()
+            .AsReadOnly();
+
+        foreach (var entry in tasksGroupedByProject)
+        {
+            var projectName = entry.Key.Name;
+            _console.WriteLine(projectName);
+
+            var projectTasks = entry
+                .ToList()
+                .AsReadOnly();
+            
+            foreach (var task in projectTasks)
             {
-                _console.WriteLine($"    [{(task.IsChecked ? 'x' : ' ')}] {task.Id}: {task.Description}");
+                _console.WriteLine($"    [{(task.Done ? 'x' : ' ')}] {task.Id}: {task.Description}");
             }
             
             _console.WriteLine();

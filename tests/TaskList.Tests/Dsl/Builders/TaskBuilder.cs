@@ -1,3 +1,4 @@
+using TaskList.Entities;
 using TaskList.Tests.Fakes;
 using TaskList.ValueObjects;
 using Task = TaskList.Entities.Task;
@@ -9,6 +10,7 @@ public class TaskBuilder
     private static readonly IClock Clock = new FakeClock();
     
     private string _id = "";
+    private readonly Project _project = new("default", Clock);
     private string? _description;
     private DateOnly? _dueOn;
 
@@ -39,7 +41,7 @@ public class TaskBuilder
     public Task Please()
     {
         var taskId = new TaskId(_id);
-        var task = new Task(taskId, _description ?? string.Empty);
+        var task = new Task(taskId, _project, _description ?? string.Empty);
 
         if (_dueOn.HasValue)
         {

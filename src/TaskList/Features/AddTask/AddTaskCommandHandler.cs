@@ -24,7 +24,7 @@ public class AddTaskCommandHandler : IHandler<AddTaskCommand>
         }
 
         var taskId = new TaskId(command.Id);
-        var task = new Task(taskId, command.Description);
+        var task = new Task(taskId, project, command.Description);
         project.AddTask(task);
     }
 }

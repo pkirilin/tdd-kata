@@ -37,7 +37,7 @@ public class Application
 
         if (action is null)
         {
-            _console.WriteLine("I don't know what the command \"{0}\" is.", command);
+            _console.WriteLine("I don't know what the command \"{0}\" is.", command.Type);
             return;
         }
         

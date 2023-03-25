@@ -11,5 +11,4 @@ public static class Create
 
     public static GetTasksQueryHandlerBuilder GetTasksQueryHandler() => new();
     public static SetDeadlineQueryHandlerBuilder SetDeadlineQueryHandler() => new();
-    public static ShowTasksDueTodayQueryHandlerBuilder ShowTasksDueTodayQueryHandler() => new();
 }
